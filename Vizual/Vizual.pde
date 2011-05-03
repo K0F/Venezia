@@ -128,7 +128,7 @@ class Node{
     PVector position;
     int id;
     float val;
-    float radius = 20;
+    float radius = 47.5;
     float fading = 30.0;
 
 
@@ -136,6 +136,9 @@ class Node{
         id = _id;
         position = new PVector(_x,_y,_z);
         val = 255;
+
+        if (debug)
+            println("Creating node no "+id);
     }
 
     void draw2D(){
@@ -146,7 +149,7 @@ class Node{
         noFill();
         ellipse(position.x,position.y,radius,radius);
        
-        int distance = 15;
+        int distance = 0;
         
         line(position.x,position.y,position.x+distance,position.y+distance);
          
