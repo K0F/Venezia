@@ -1,94 +1,166 @@
 /**
-*  Venezia 2011 Vizual by Kof
-*/
+ *  Venezia 2011 Vizual by Kof
+ */
 
 import processing.opengl.*;
 
 boolean debug = true;
 
+String render = P2D;
+
+World world;
 DataParser parser;
 ArrayList globNodes;
 
 
 void setup(){
-	size(1440,600,OPENGL);
-
-
-	//init
-	parser = new DataParser("stlp_B.txt");
-	globNodes = parser.getNodes();
+    size(800,600,render);
+    reset();
 
 }
 
+void reset(){
+    //init
+    hint(ENABLE_OPENGL_4X_SMOOTH);
+    smooth();
 
+    textFont(createFont("Verdana",8,false));
+    textMode(SCREEN);
+
+    world = new World();
+    parser = new DataParser("stlp_B.txt");
+    globNodes = parser.getNodes();
+}
+
+void draw(){
+    background(0);
+
+    world.preDraw();
+
+    for(int i = 0 ;i< globNodes.size();i++){
+        Node tmp = (Node)globNodes.get(i);
+        tmp.draw2D();
+    }
+
+    world.postDraw();
+
+}
+
+class World{
+    PVector position;
+    float scale;
+
+    World(){
+        position = new PVector(0,0,0);
+        scale = 1;
+
+    }
+
+    void preDraw(){
+        pushMatrix();
+        translate(position.x,position.y);
+        scale(scale);
+    }
+
+    void postDraw(){
+        popMatrix();
+
+    }
+
+}
 
 class DataParser{
-	String rawData [];
-	String filename;
+    String rawData [];
+    String filename;
 
-	ArrayList coords;
-	ArrayList nodes;
+    ArrayList coords;
+    ArrayList nodes;
 
-	DataParser(String _filename){
-		filename = _filename;
-		rawData = loadStrings(filename);
-		
-		parseVals(rawData);
-		castNodes();
-		
-	}
+    DataParser(String _filename){
+        filename = _filename;
+        rawData = loadStrings(filename);
 
-	// parse a valuse from given data set
-	void parseVals(String data[]){
-		ArrayList tmp = new ArrayList();
-		for(int i = 0;i<data.length;i+=2){
-			tmp.add((String)data[i]);
-		}
+        parseVals(rawData);
+        castNodes();
 
-	
-		coords = new ArrayList(0);
+    }
 
-		for(int i = 0; i<tmp.size();i++){
-			String cline = (String)tmp.get(i);
-			String[] parsed = splitTokens(cline," :	");
-			coords.add(new PVector(parseFloat(parsed[0]),parseFloat(parsed[1]),parseFloat(parsed[2])));
-		}
-	}
+    // parse a valuse from given data set
+    void parseVals(String data[]){
+        ArrayList tmp = new ArrayList();
+        for(int i = 0;i<data.length;i+=2){
+            tmp.add((String)data[i]);
+        }
 
-	void castNodes(){
-		nodes = new ArrayList(0);
-		for(int i = 0;i<coords.size();i++){
-			PVector current = (PVector)coords.get(i);
-			nodes.add(new Node(i,current.x,current.y,current.z));
 
-		}
+        coords = new ArrayList(0);
 
-	}
+        for(int i = 0; i<tmp.size();i++){
+            String cline = (String)tmp.get(i);
+            String[] parsed = splitTokens(cline," :	");
+            coords.add(new PVector(parseFloat(parsed[0]),parseFloat(parsed[1]),parseFloat(parsed[2])));
+        }
+    }
 
-	ArrayList getNodes(){
-		return nodes;
-	}
+    void castNodes(){
+        nodes = new ArrayList(0);
+        for(int i = 0;i<coords.size();i++){
+            PVector current = (PVector)coords.get(i);
+            nodes.add(new Node(i,current.x,current.y,current.z));
+
+        }
+
+    }
+
+    ArrayList getNodes(){
+        return nodes;
+    }
 
 
 }
 
 class Node{
-	PVector position;
-	int id;
-	int val;
+    PVector position;
+    int id;
+    float val;
+    float radius = 20;
+    float fading = 30.0;
 
 
-	Node(int _id,float _x,float _y,float _z){
-		id = _id;
-		position = new PVector(_x,_y,_z);
-	}
+    Node(int _id,float _x,float _y,float _z){
+        id = _id;
+        position = new PVector(_x,_y,_z);
+        val = 255;
+    }
+
+    void draw2D(){
+
+        modVal();
+
+        stroke(val);
+        noFill();
+        ellipse(position.x,position.y,radius,radius);
+        
+        line(position.x,position.y,position.x+20,position.y+20);
+         
+        fill(255);
+        text(val,position.x+20,position.y+20);
+    }
+
+    void draw3D(){
+        stroke(255,val);
+        noFill();
+        sphere(radius);
+    }
+
+    void modVal(){
+        val += (constrain(map(dist(mouseX,mouseY,position.x,position.y),0,90,255,0),0,255)-val)/fading;
+
+    }
 
 
 }
 
 class Grid{
-
-
-
 
 }
