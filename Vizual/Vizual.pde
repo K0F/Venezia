@@ -19,12 +19,17 @@ void setup(){
 
 }
 
+// make setup things here
 void reset(){
-    //init
+    if(render == OPENGL) 
     hint(ENABLE_OPENGL_4X_SMOOTH);
+
+    if(render == P2D)
     smooth();
 
-    textFont(createFont("Verdana",8,false));
+    textFont(createFont("Verdana",7,false));
+    
+    if(render == P2D)
     textMode(SCREEN);
 
     world = new World();
@@ -140,11 +145,13 @@ class Node{
         stroke(val);
         noFill();
         ellipse(position.x,position.y,radius,radius);
+       
+        int distance = 15;
         
-        line(position.x,position.y,position.x+20,position.y+20);
+        line(position.x,position.y,position.x+distance,position.y+distance);
          
         fill(255);
-        text(val,position.x+20,position.y+20);
+        text(val,position.x+distance,position.y+distance);
     }
 
     void draw3D(){
