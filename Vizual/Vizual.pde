@@ -32,21 +32,33 @@ void reset(){
     if(render == P2D)
     textMode(SCREEN);
 
+    //initialize world coordinates
     world = new World();
-    parser = new DataParser("stlp_B.txt");
+
+    //load default positions grid
+    parser = new DataParser("grid.txt");
+    
+    //get nodes from parser
     globNodes = parser.getNodes();
 }
 
 void draw(){
     background(0);
 
+
+    // world pre draw routine 
     world.preDraw();
+
+
+    // draw nodes here
 
     for(int i = 0 ;i< globNodes.size();i++){
         Node tmp = (Node)globNodes.get(i);
         tmp.draw2D();
     }
 
+
+    // world post draw routine
     world.postDraw();
 
 }
