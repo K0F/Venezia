@@ -7,6 +7,7 @@ import processing.opengl.*;
 boolean debug = true;
 
 DataParser parser;
+ArrayList globNodes;
 
 
 void setup(){
@@ -15,6 +16,7 @@ void setup(){
 
 	//init
 	parser = new DataParser("stlp_B.txt");
+	globNodes = parser.getNodes();
 
 }
 
@@ -25,13 +27,14 @@ class DataParser{
 	String filename;
 
 	ArrayList coords;
-	ArrayList Nodes
+	ArrayList nodes;
 
 	DataParser(String _filename){
 		filename = _filename;
 		rawData = loadStrings(filename);
 		
 		parseVals(rawData);
+		castNodes();
 		
 	}
 
@@ -53,8 +56,17 @@ class DataParser{
 	}
 
 	void castNodes(){
+		nodes = new ArrayList(0);
+		for(int i = 0;i<coords.size();i++){
+			PVector current = (PVector)coords.get(i);
+			nodes.add(new Node(i,current.x,current.y,current.z));
 
+		}
 
+	}
+
+	ArrayList getNodes(){
+		return nodes;
 	}
 
 
