@@ -171,7 +171,7 @@ class DataDump{
         saveStrings(filename,dump);
         
         if(debug)
-            println("data ulozeny do souboru: "+filename);
+            println("data ulozena do souboru: "+filename);
     }
 
 }
