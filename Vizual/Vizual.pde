@@ -10,6 +10,7 @@ String render = P2D;
 
 World world;
 DataParser parser;
+DataDump dumper;
 ArrayList globNodes;
 
 
@@ -36,10 +37,12 @@ void reset(){
     world = new World();
 
     //load default positions grid
-    parser = new DataParser("grid.txt");
+    parser = new DataParser("foundation.2dg");
     
     //get nodes from parser
     globNodes = parser.getNodes();
+
+    dumper = new DataDump(globNodes,"output/testDump.txt");
 }
 
 void draw(){
@@ -63,6 +66,8 @@ void draw(){
 
 }
 
+//////////////// World class 
+
 class World{
     PVector position;
     float scale;
@@ -85,6 +90,8 @@ class World{
     }
 
 }
+
+//////////////// DataParser class
 
 class DataParser{
     String rawData [];
@@ -132,9 +139,44 @@ class DataParser{
     ArrayList getNodes(){
         return nodes;
     }
+}
 
+//////////////// DataDump class 
+
+class DataDump{
+    ArrayList nodes;
+    String filename;
+
+    DataDump(ArrayList _nodes,String _filename){
+        nodes = _nodes;
+        filename = _filename;
+    }
+
+    void dumpVals(){
+        ArrayList data = new ArrayList(0);
+
+        for(int i = 0 ;i < nodes.size();i++){
+            Node n = (Node)nodes.get(i);
+            String tmpCoord = ""+n.position.x+":"+n.position.y+":"+n.position.z;
+            String tmpVal = " "+n.val+";";
+            data.add(tmpCoord);
+            data.add(tmpVal);
+        }
+
+        String dump[] = new String[data.size()];
+        for(int i = 0 ;i< dump.length;i++){
+            dump[i] = (String)data.get(i)+"";
+        }
+
+        saveStrings(filename,dump);
+        
+        if(debug)
+            println("data ulozeny do souboru: "+filename);
+    }
 
 }
+
+//////////////// Node Class 
 
 class Node{
     PVector position;
@@ -142,12 +184,13 @@ class Node{
     float val;
     float radius = 47.5;
     float fading = 30.0;
+    boolean freeze = false;
 
 
     Node(int _id,float _x,float _y,float _z){
         id = _id;
         position = new PVector(_x,_y,_z);
-        val = 255;
+        val = 0;
 
         if (debug)
             println("Creating node no "+id);
@@ -155,6 +198,7 @@ class Node{
 
     void draw2D(){
 
+        if(!freeze)
         modVal();
 
         stroke(val);
@@ -178,6 +222,18 @@ class Node{
     void modVal(){
         val += (constrain(map(dist(mouseX,mouseY,position.x,position.y),0,90,255,0),0,255)-val)/fading;
 
+    }
+
+    void setFreeze(){
+        freeze = true;
+    }
+
+    void releaseFreeze(){
+        freeze = false;
+    }
+
+    void setVal(int _val){
+        val = _val;
     }
 
 
