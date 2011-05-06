@@ -16,10 +16,10 @@ String pipeline = "v4l2src device=/dev/video2 ! "+
 "queue2 ! "+
 "video/x-raw-rgb, width="+W+", height="+H+", bpp=32, depth=24";
 
-String ipcam = "rtspsrc location=rtsp://10.0.0.102:554 latency=0 ! decodebin ! ffmpegcolorspace ! queue ! "+
+String ipcam = "rtspsrc location=rtsp://10.0.0.10:554 latency=0 ! decodebin ! ffmpegcolorspace ! queue ! "+
 "video/x-raw-rgb, width="+W+", height="+H+", bpp=32, depth=24";
 
-String ipcam2 = "rtspsrc location=rtsp://10.0.0.102:554/low latency=5 ! decodebin ! ffmpegcolorspace "+
+String ipcam2 = "rtspsrc location=rtsp://10.0.0.10:554/low latency=5 ! decodebin ! ffmpegcolorspace "+
 "video/x-raw-rgb, width="+W+", height="+H+", bpp=32, depth=24";
 
 
