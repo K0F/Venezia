@@ -2,7 +2,9 @@
  *  Venezia 2011 Vizual by Kof
  */
 
-import processing.opengl.*;
+//import processing.opengl.*;
+import oscP5.*;
+import netP5.*;
 
 boolean debug = true;
 
@@ -12,6 +14,8 @@ World world;
 DataParser parser;
 DataDump dumper;
 ArrayList globNodes;
+
+Receiver receiver;
 
 
 void setup(){
@@ -33,6 +37,8 @@ void reset(){
     if(render == P2D)
     textMode(SCREEN);
 
+    receiver = new Receiver(this,5555);
+
     //initialize world coordinates
     world = new World();
 
@@ -48,10 +54,8 @@ void reset(){
 void draw(){
     background(0);
 
-
     // world pre draw routine 
     world.preDraw();
-
 
     // draw nodes here
 
@@ -59,7 +63,6 @@ void draw(){
         Node tmp = (Node)globNodes.get(i);
         tmp.draw2D();
     }
-
 
     // world post draw routine
     world.postDraw();

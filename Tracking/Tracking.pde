@@ -1,8 +1,12 @@
+import oscP5.*;
+import netP5.*;
+
 import codeanticode.gsvideo.*;
 
+Transmitter transmitter;
 GSPipeline pipe;
 
-float tresh =  100;
+float tresh =  127;
 
 int W = 320;//1280/2;
 int H = 240;//1024/2;
@@ -26,13 +30,22 @@ String ipcam2 = "rtspsrc location=rtsp://10.0.0.10:554/low latency=5 ! decodebin
 void setup()
 {
   size(W,H);
+  reset();
+}
+
+void reset() {
+
   frameRate(25);
+
 
   rectMode(CENTER);
 
+  transmitter = new Transmitter(this,"127.0.0.1",5555);
+
+
   maska = createImage(W,H,RGB);
   pipe = new GSPipeline(this, ipcam);
-  
+
   background(0);
 }
 
@@ -69,10 +82,10 @@ void draw() {
           pipe.pixels[i] = 0xff000000;
       }
       //tint(255,55);
-      image(pipe,0, 0);
-     
+      //image(pipe,0, 0);
 
 
+      transmitter.transmitData(pipe);
 
 
       //set(0,0,pipe);
