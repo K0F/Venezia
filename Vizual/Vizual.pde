@@ -37,7 +37,7 @@ void reset(){
     if(render == P2D)
     textMode(SCREEN);
 
-    receiver = new Receiver(this,5555);
+    
 
     //initialize world coordinates
     world = new World();
@@ -47,7 +47,11 @@ void reset(){
     
     //get nodes from parser
     globNodes = parser.getNodes();
+    
+    // init OSC listener class
+    receiver = new Receiver(this,12000);
 
+    // init dump class
     dumper = new DataDump(globNodes,"output/testDump.txt");
 }
 

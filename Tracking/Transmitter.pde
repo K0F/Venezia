@@ -10,8 +10,8 @@ class Transmitter {
     address = _address;
     port = _port;
 
-    osc = new OscP5(parent,port+1);
-    remote = new NetAddress(address,port);
+    osc = new OscP5(parent,port);
+    remote = new NetAddress(address,12000);
   }
 
   void transmitData(PImage tmp) {
