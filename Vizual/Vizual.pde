@@ -6,7 +6,7 @@
 import oscP5.*;
 import netP5.*;
 
-boolean debug = true;
+boolean debug = false;
 
 String render = P2D;
 
