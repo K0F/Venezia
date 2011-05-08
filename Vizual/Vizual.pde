@@ -2,6 +2,7 @@
  *  Venezia 2011 Vizual by Kof
  */
 
+<<<<<<< HEAD
 <<<<<<< .merge_file_oMlnxq
 
 import processing.opengl.*;
@@ -10,6 +11,11 @@ import processing.opengl.*;
 import oscP5.*;
 import netP5.*;
 >>>>>>> .merge_file_ka55Wn
+=======
+//import processing.opengl.*;
+import oscP5.*;
+import netP5.*;
+>>>>>>> OSCimplement
 
 boolean debug = false;
 
