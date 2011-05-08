@@ -8,7 +8,7 @@ class Node{
     float fading = 30.0;
     boolean freeze = false;
 
-    float modrange = 120;
+    float modrange = 220;
 
     float basez;
 
@@ -57,8 +57,12 @@ class Node{
     }
 
     void modVal(){
-        val += (constrain(map(dist(mouseX/world.scale,mouseY/world.scale,position.x,position.y),0,modrange,255,0),0,255)-val)/fading;
-        position.z = val + basez;
+        float newVal = constrain(map(dist(mouseX/world.scale,mouseY/world.scale,position.x,position.y),0,modrange,255,0),0,255);
+
+        if(newVal>val){
+            val += (newVal-val)/fading;
+            position.z = val + basez;
+        }
     }
 
     void setFreeze(){
