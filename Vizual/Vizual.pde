@@ -2,10 +2,16 @@
  *  Venezia 2011 Vizual by Kof
  */
 
+<<<<<<< .merge_file_oMlnxq
 
 import processing.opengl.*;
+=======
+//import processing.opengl.*;
+import oscP5.*;
+import netP5.*;
+>>>>>>> .merge_file_ka55Wn
 
-boolean debug = true;
+boolean debug = false;
 
 String render = P2D;
 
@@ -13,6 +19,8 @@ World world;
 DataParser parser;
 DataDump dumper;
 ArrayList globNodes;
+
+Receiver receiver;
 
 
 void setup(){
@@ -34,6 +42,8 @@ void reset(){
     if(render == P2D)
     textMode(SCREEN);
 
+    
+
     //initialize world coordinates
     world = new World();
 
@@ -42,17 +52,19 @@ void reset(){
     
     //get nodes from parser
     globNodes = parser.getNodes();
+    
+    // init OSC listener class
+    receiver = new Receiver(this,12000);
 
+    // init dump class
     dumper = new DataDump(globNodes,"output/testDump.txt");
 }
 
 void draw(){
     background(0);
 
-
     // world pre draw routine 
     world.preDraw();
-
 
     // draw nodes here
 
@@ -60,7 +72,6 @@ void draw(){
         Node tmp = (Node)globNodes.get(i);
         tmp.draw2D();
     }
-
 
     // world post draw routine
     world.postDraw();
