@@ -8,15 +8,19 @@ class Node{
     float fading = 30.0;
     boolean freeze = false;
 
+    float modrange = 120;
+
+    float basez;
 
     Node(int _id,float _x,float _y,float _z){
         id = _id;
         position = new PVector(_x,_y,_z);
-        val = 255;
+        val = 0;
         
         W = max(W,position.x);
         H = max(H,position.y);
         
+        basez = position.z;
         
         if (debug)
             println("Creating node no "+id);
@@ -27,7 +31,7 @@ class Node{
         if(!freeze)
         modVal();
 
-        stroke(val);
+        stroke(lerpColor(#ffffff,#ffcc00,norm(val,0,255)),100);
         noFill();
         ellipse(position.x,position.y,radius,radius);
        
@@ -44,7 +48,7 @@ class Node{
 
     void draw3D(){
       pushMatrix();
-        stroke(255,val);
+        stroke(lerpColor(#ffffff,#ffcc00,norm(val,0,255)),100);
         noFill();
         translate(position.x,position.y,position.z);
         box(radius);
@@ -53,8 +57,8 @@ class Node{
     }
 
     void modVal(){
-        val += (constrain(map(dist(mouseX/world.scale,mouseY/world.scale,position.x,position.y),0,90,255,0),0,255)-val)/fading;
-
+        val += (constrain(map(dist(mouseX/world.scale,mouseY/world.scale,position.x,position.y),0,modrange,255,0),0,255)-val)/fading;
+        position.z = val + basez;
     }
 
     void setFreeze(){
