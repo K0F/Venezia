@@ -15,6 +15,7 @@ float W,H;
 World world;
 DataParser parser;
 ArrayList globNodes;
+Brush brush;
 
 Receiver receiver;
 
@@ -38,7 +39,7 @@ void setup(){
             textMode(SCREEN);
 
 
-
+        brush = new Brush("peak.png");
 
         //set initial width, height
         W = 0;

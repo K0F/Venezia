@@ -8,7 +8,7 @@ class Node{
     float fading = 30.0;
     boolean freeze = false;
 
-    float modrange = 220;
+    float modrange = 500;
 
     float basez;
 
@@ -57,7 +57,7 @@ class Node{
     }
 
     void modVal(){
-        float newVal = constrain(map(dist(mouseX/world.scale,mouseY/world.scale,position.x,position.y),0,modrange,255,0),0,255);
+        float newVal = brush.profil[(int)constrain(map(dist(mouseX/world.scale,mouseY/world.scale,position.x,position.y),0,modrange,brush.peak.width,0),0,brush.profil.length-1)];
 
         if(newVal>val){
             val += (newVal-val)/fading;
