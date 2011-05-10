@@ -48,8 +48,8 @@ class Node{
 
     void draw3D(){
       pushMatrix();
-        stroke(lerpColor(#ffffff,#ffcc00,norm(val,0,255)),100);
-        noFill();
+        fill(lerpColor(#333333,#ffcc00,norm(val,0,255)),220);
+        stroke(0);
         translate(position.x,position.y,position.z);
         box(radius);
         
