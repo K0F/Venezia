@@ -1,3 +1,4 @@
+/*
 class Transmitter {
   PApplet parent;
   OscP5 osc;
@@ -42,4 +43,4 @@ class Transmitter {
     
   }
 }
-
+*/
