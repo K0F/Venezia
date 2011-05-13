@@ -17,7 +17,7 @@ ArrayList senzory = new ArrayList(0);
 
 int W = 1280;//1280/2;
 int H = 720;//1024/2;
-String ipcam = "rtspsrc location=rtsp://192.168.0.20:554/h264 latency=0 ! decodebin ! ffmpegcolorspace ";
+String ipcam = "rtspsrc location=rtsp://192.168.0.20:554/h264 latency=0 ! decodebin  ";
 //"video/x-raw-rgb, width="+W+", height="+H+", bpp=32, depth=24";
 
 
