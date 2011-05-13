@@ -19,7 +19,7 @@ Receiver receiver;
 
 
 void setup(){
-    size(800,600,render);
+    size(1920,1080,render);
     reset();
 
 }

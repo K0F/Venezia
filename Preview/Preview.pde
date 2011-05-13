@@ -1,3 +1,4 @@
+import processing.opengl.*;
 import oscP5.*;
 import netP5.*;
 import peasy.*;
@@ -6,7 +7,7 @@ boolean debug = false;
 
 boolean showText = false;
 
-String render = P3D;
+String render = OPENGL;
 
 PeasyCam cam;
 
@@ -20,7 +21,7 @@ Brush brush;
 Receiver receiver;
 
 void setup(){
-    size(800,600,render);
+    size(1440,720,render);
     reset();
 
 
@@ -63,10 +64,13 @@ void setup(){
         cam.setMinimumDistance(1000);
         cam.setMaximumDistance(2000);
 
+        
     }
 
 void draw(){
     background(0);
+
+    lights();
 
     draw3D();
 
