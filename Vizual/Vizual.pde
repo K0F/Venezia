@@ -227,8 +227,9 @@ class Node{
     }
 
     void modVal(){
-        val += (constrain(map(dist(mouseX,mouseY,position.x,position.y),0,90,255,0),0,255)-val)/fading;
-
+        //val += (constrain(map(dist(mouseX,mouseY,position.x,position.y),0,90,255,0),0,255)-val)/fading;
+        if(val>0)
+        val += (-val)/fading;
     }
 
     void setFreeze(){

@@ -1,4 +1,3 @@
-/*
 class Transmitter {
   PApplet parent;
   OscP5 osc;
@@ -13,6 +12,13 @@ class Transmitter {
 
     osc = new OscP5(parent,port);
     remote = new NetAddress(address,12000);
+  }
+  
+  void sendSenzor(Senzor s){
+    OscMessage message = new OscMessage("/tracking");
+    message.add(s.id);
+    osc.send(message,remote);
+    
   }
 
   void transmitData(PImage tmp) {
@@ -43,4 +49,4 @@ class Transmitter {
     
   }
 }
-*/
+
