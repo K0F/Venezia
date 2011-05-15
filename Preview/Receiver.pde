@@ -1,49 +1,41 @@
 class Receiver {
-    PApplet parent;
-    OscP5 osc;
-    int port;
+  PApplet parent;
+  OscP5 osc;
+  int port;
 
-    Receiver(PApplet _parent,int _port) {
-        parent = _parent;
-        port = _port;
+  Receiver(PApplet _parent, int _port) {
+    parent = _parent;
+    port = _port;
 
-        osc = new OscP5(parent,port);
-
-    }
-
+    osc = new OscP5(parent, port);
+  }
 }
 
 void oscEvent(OscMessage theOscMessage) {
 
-    if(theOscMessage.addrPattern().equals("/tracking")){
-        String tmp = theOscMessage.typetag();
+  if (theOscMessage.addrPattern().equals("/tracking")) {
+    //println("bang");
 
-        if(debug)
-            println("values received: " + tmp.length());
+    String tmp = theOscMessage.typetag();
 
-        if(tmp.length()>0){
+    if (debug)
+      println("values received: " + tmp.length());
 
-            int [] rawvals = new int[tmp.length()];
-            for(int i = 0;i<tmp.length();i++){
-                rawvals[i] = theOscMessage.get(i).intValue();
-            }
+    if (tmp.equals("ff")) {
 
-            for(int y = 0;y < 240;y++){
-                for(int x = 0;x < 320;x++){
-                    for(int i = 0 ;i<rawvals.length;i++)
-                        if(rawvals[i] == y*320+x){
-                            rect(x,y,1,1);
-                        }
-                }
-            }
+      
+        for (int i = 0;i<globNodes.size();i++) {
+          Node n = (Node)globNodes.get(i);
 
+          float tx = theOscMessage.get(0).floatValue() * width / world.scale;
+          float ty = theOscMessage.get(1).floatValue() * height / world.scale;
 
+          float distance = dist(tx, ty, n.position.x, n.position.y);
+          
+          if(distance<n.modrange)
+          n.modVal3(distance);
         }
-    }else{
-        if(debug)
-            println("WARNING: receiving wrong tracking data!");
     }
-
-
+  }
 }
 

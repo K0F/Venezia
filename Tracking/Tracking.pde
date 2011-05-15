@@ -6,6 +6,7 @@ import codeanticode.gsvideo.*;
 GSPipeline pipeline;
 Transmitter transmitter;
 
+int PORT = 10000;
 
 
 PImage maska;
@@ -16,6 +17,7 @@ String render = P2D;
 
 float tresh =  8;
 
+Grid grid;
 ArrayList senzory = new ArrayList(0);
 
 int W = 1280; //1280/2;
@@ -44,6 +46,9 @@ void reset(){
   
   pipeline = new GSPipeline(this, ipcam);
   pipeline.play();
+  
+  grid = new Grid(40);
+  senzory = grid.getSenzors();
 }
 
 void draw() {

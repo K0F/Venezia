@@ -11,12 +11,13 @@ class Transmitter {
     port = _port;
 
     osc = new OscP5(parent,port);
-    remote = new NetAddress(address,12000);
+    remote = new NetAddress(address,PORT);
   }
   
   void sendSenzor(Senzor s){
     OscMessage message = new OscMessage("/tracking");
-    message.add(s.id);
+    message.add(map(s.x,0,W,0,1));
+    message.add(map(s.y,0,H,0,1));
     osc.send(message,remote);
     
   }

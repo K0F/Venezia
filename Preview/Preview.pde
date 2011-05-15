@@ -7,6 +7,8 @@ boolean debug = false;
 
 boolean showText = false;
 
+int PORT = 10000;
+
 String render = OPENGL;
 
 PeasyCam cam;
@@ -19,6 +21,7 @@ ArrayList globNodes;
 Brush brush;
 
 Receiver receiver;
+
 
 void setup(){
     size(1440,720,render);
@@ -58,7 +61,7 @@ void setup(){
         world = new World(0.25,0,0,0);
 
         // init OSC listener class
-        receiver = new Receiver(this,12000);
+        receiver = new Receiver(this,PORT);
 
         cam = new PeasyCam(this, 1500);
         cam.setMinimumDistance(1000);
@@ -69,11 +72,13 @@ void setup(){
 
 void draw(){
     background(0);
+    
+    
 
     lights();
 
     draw3D();
-
+    
     draw2D();
 }
 
