@@ -24,16 +24,19 @@ class Node{
         if(!freeze)
         modVal();
 
-        stroke(val);
+        stroke(255,val/2);
+        strokeWeight(val/25+1);
         noFill();
-        ellipse(position.x,position.y,radius,radius);
+        
+        if(val>10)
+        ellipse(position.x,position.y,(255-val)/3,(255-val)/3);
        
         int distance = 0;
         
         line(position.x,position.y,position.x+distance,position.y+distance);
          
-        fill(255);
-        text(val,position.x+distance,position.y+distance);
+       // fill(255);
+       // text(val,position.x+distance,position.y+distance);
     }
 
     void draw3D(){

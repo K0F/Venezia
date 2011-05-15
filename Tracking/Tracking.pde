@@ -15,8 +15,7 @@ boolean newMask = true;
 
 String render = P2D;
 
-float tresh =  8;
-
+float tresh =  30;
 Grid grid;
 ArrayList senzory = new ArrayList(0);
 
