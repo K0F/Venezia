@@ -8,6 +8,7 @@ Transmitter transmitter;
 
 int PORT = 10000;
 
+boolean showImage = false;
 
 PImage maska;
 
@@ -46,7 +47,7 @@ void reset(){
   pipeline = new GSPipeline(this, ipcam);
   pipeline.play();
   
-  grid = new Grid(40);
+  grid = new Grid(80);
   senzory = grid.getSenzors();
 }
 
@@ -58,6 +59,8 @@ void draw() {
   if (pipeline.available()) {
     pipeline.read();
     pipeline.loadPixels();
+    
+    if(showImage)
     image(pipeline, 0, 0);
     hasNew = true;
   }
