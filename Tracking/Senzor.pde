@@ -37,9 +37,28 @@ class Grid {
 
 	}
 
+	void generateBox(){
+
+		int cnt = 0;
+
+		for(int y = grid.sy; y < mouseY; y += grid.res){
+			for(int x = grid.sx ; x < mouseX ; x+= grid.res){
+				s.add(new Senzor(cnt,x,y));
+				cnt ++;
+
+			}
+
+		}
+
+
+
+	}
+
+
+
 	void runInteractive(int _res){
 		res = (int)(W/_res);
-		selectArea = true;
+		//	selectArea = true;
 
 
 	}

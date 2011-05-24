@@ -16,8 +16,8 @@ class Transmitter {
 
 	void sendSenzor(Senzor s){
 		OscMessage message = new OscMessage("/tracking");
-		message.add(map(s.x,0,W,0,1));
-		message.add(map(s.y,0,H,0,1));
+		message.add(map(s.x,grid.sx,grid.ex,0,1));
+		message.add(map(s.y,grid.sy,grid.ey,0,1));
 		osc.send(message,remote);
 
 	}

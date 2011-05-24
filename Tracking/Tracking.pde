@@ -1,4 +1,4 @@
- /**
+/**
  *  Code by Krystof Pesek, licensed under Creative Commons Attribution-Share Alike 3.0 license.
  *  License: http://creativecommons.org/licenses/by-sa/3.0/
  *
@@ -32,6 +32,10 @@ GSPipeline pipeline;
 Transmitter transmitter;
 
 int PORT = 10000;
+
+
+// mode , 0 = static, 1 = interacrive
+int MODE = 1;
 
 boolean showImage = true;
 
@@ -72,7 +76,7 @@ void reset(){
 	pipeline = new GSPipeline(this, ipcam);
 	pipeline.play();
 
-	grid = new Grid(80,1);
+	grid = new Grid(80,MODE);
 	senzory = grid.getSenzors();
 }
 
@@ -81,29 +85,6 @@ void draw() {
 
 	boolean hasNew = false;
 
-	if(grid.selectArea){
-		stroke(#ff0000);
-		noFill();
-
-		grid.ex = mouseX;
-		grid.ey = mouseY;
-		rect(grid.sx,grid.sy,grid.ex,grid.ey);
-
-		
-		pushStyle();
-		rectMode(CORNER);
-		for(int x = grid.sx ; x < grid.sy ; x+= grid.res){
-			for(int y = grid.sy; y < grid.sy; y += grid.res){
-				rect(x,y,3,3);
-
-			}
-
-		}
-		popStyle();
-
-
-	}
-
 	if (pipeline.available()) {
 		pipeline.read();
 		pipeline.loadPixels();
@@ -111,6 +92,35 @@ void draw() {
 		if(showImage)
 			image(pipeline, 0, 0);
 		hasNew = true;
+
+
+		if(grid.selectArea){
+			stroke(#ff0000);
+			noFill();
+
+			grid.ex = mouseX-grid.sx;
+			grid.ey = mouseY-grid.sy;
+
+			rectMode(CORNER);
+			rect(grid.sx,grid.sy,grid.ex,grid.ey);
+
+			rectMode(CENTER);
+
+			//	pushStyle();
+			for(int y = grid.sy; y < mouseY; y += grid.res){
+				for(int x = grid.sx ; x < mouseX ; x+= grid.res){
+					rect(x,y,3,3);
+
+				}
+
+			}
+			//	popStyle();
+
+
+		}
+
+
+
 	}
 
 
@@ -123,15 +133,28 @@ void draw() {
 }
 
 void mousePressed(){
-	if(grid.selectArea){
+	if(MODE==1){
 		grid.sx = mouseX;
 		grid.sy = mouseY;
+		grid.selectArea = true;
+	}
 
-	}else{
 
-		if(mouseButton==LEFT){
-			senzory.add(new Senzor(senzory.size(),mouseX,mouseY));
-		} 
+	/*}else{
+
+	  if(mouseButton==LEFT){
+	  senzory.add(new Senzor(senzory.size(),mouseX,mouseY));
+	  } 
+	  }*/
+
+}
+
+void mouseReleased(){
+	if(MODE==1){
+		grid.selectArea = false;
+		grid.generateBox();
+		grid.ex = mouseX;
+		grid.ey = mouseY;	
 	}
 
 }
