@@ -1,5 +1,4 @@
 //////////////// Node Class
-
 class Node{
 	PVector position;
 	int id;
@@ -32,19 +31,11 @@ class Node{
 		stroke(0,val);
 		noFill();
 
-		//strokeWeight(map(val,0,255,10,1));
-
-
 		if(val>10)
-			ellipse(position.x,position.y,(255-val),(255-val));
-
+			ellipse(position.x,position.y,(val)/4+radius,(val)/4+radius);
 
 		int distance = 0;
 
-		//line(position.x,position.y,position.x+distance,position.y+distance);
-
-		// fill(255);
-		// text(val,position.x+distance,position.y+distance);
 	}
 
 	void draw3D(){
@@ -53,20 +44,25 @@ class Node{
 		sphere(radius);
 	}
 
+
+	// modval every frame
 	void modVal(){
 		//val += (constrain(map(dist(mouseX,mouseY,position.x,position.y),0,90,255,0),0,255)-val)/fading;
 		if(val>0)
 			val += (-val)/fading;
 	}
 
+	// set frozen state to neode
 	void setFreeze(){
 		freeze = true;
 	}
 
+	// release frozen state
 	void releaseFreeze(){
 		freeze = false;
 	}
 
+	// set value of
 	void setVal(int _val){
 		val = _val;
 	}

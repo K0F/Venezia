@@ -29,7 +29,7 @@ import netP5.*;
 
 boolean debug = false;
 
-String render = P2D;
+String render = OPENGL;
 
 int PORT = 10000;
 
@@ -44,7 +44,7 @@ Receiver receiver;
 
 
 void setup(){
-    size(1920,1080,render);
+    size(1920*2,1080,render);
     reset();
 }
 
