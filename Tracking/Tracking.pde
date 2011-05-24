@@ -45,7 +45,10 @@ boolean newMask = true;
 
 String render = P2D;
 
-float tresh =  30;
+float tresh =  20;
+
+int RES = 100;
+
 Grid grid;
 ArrayList senzory = new ArrayList(0);
 
@@ -76,7 +79,7 @@ void reset(){
 	pipeline = new GSPipeline(this, ipcam);
 	pipeline.play();
 
-	grid = new Grid(80,MODE);
+	grid = new Grid(RES,MODE);
 	senzory = grid.getSenzors();
 }
 

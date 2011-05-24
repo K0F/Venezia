@@ -7,7 +7,7 @@ class World{
 
     World(){
         position = new PVector(0,0,0);
-        scale = 1.5;
+        scale = 0.2;
 
     }
 

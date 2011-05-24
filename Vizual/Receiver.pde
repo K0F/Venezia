@@ -44,9 +44,10 @@ void oscEvent(OscMessage theOscMessage) {
 		 */
 		for (int i = 0 ;i<globNodes.size();i++) {
 			Node activ = (Node)globNodes.get(i);
-			float d = dist(X, Y, activ.position.x, activ.position.y);
+			float d = dist(X, Y, activ.position.x*world.scale, activ.position.y*world.scale);
 			if (d<R) {
-				activ.val = map(d, 0, R, 255, 0);
+				activ.val += map(d, 0, R, 255, 0);
+				activ.val = constrain(activ.val,0,255);
 				activ.sum++;
 			}
 		}

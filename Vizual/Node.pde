@@ -5,15 +5,19 @@ class Node{
 	int id;
 	float val;
 	float radius = 47.5;
-	float fading = 30.0;
+	float fading = 200.0;
 	int sum = 0;
+
+	int blockNo;
+
 	boolean freeze = false;
 
 
-	Node(int _id,float _x,float _y,float _z){
+	Node(int _id,int _blockNo,float _x,float _y,float _z){
 		id = _id;
 		position = new PVector(_x,_y,_z);
 		val = 0;
+		blockNo = _blockNo;
 
 		if (debug)
 			println("Creating node no "+id);
@@ -25,19 +29,19 @@ class Node{
 			modVal();
 
 
-
-		stroke(255,val/2);
+		stroke(0,val);
 		noFill();
 
-		strokeWeight(val/25+1);
+		//strokeWeight(map(val,0,255,10,1));
 
 
 		if(val>10)
-			ellipse(position.x,position.y,(255-val)/3,(255-val)/3);
+			ellipse(position.x,position.y,(255-val),(255-val));
+
 
 		int distance = 0;
 
-		line(position.x,position.y,position.x+distance,position.y+distance);
+		//line(position.x,position.y,position.x+distance,position.y+distance);
 
 		// fill(255);
 		// text(val,position.x+distance,position.y+distance);

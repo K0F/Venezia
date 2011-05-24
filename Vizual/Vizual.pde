@@ -33,7 +33,7 @@ String render = P2D;
 
 int PORT = 10000;
 
-float R = 50;
+float R = 20;
 
 World world;
 DataParser parser;
@@ -51,7 +51,7 @@ void setup(){
 // make setup things here
 void reset(){
     if(render == OPENGL) 
-    hint(ENABLE_OPENGL_4X_SMOOTH);
+    hint(DISABLE_OPENGL_2X_SMOOTH);
 
     if(render == P2D)
     smooth();
@@ -79,7 +79,7 @@ void reset(){
 }
 
 void draw(){
-    background(0);
+    background(255);
 
     // world pre draw routine 
     world.preDraw();
