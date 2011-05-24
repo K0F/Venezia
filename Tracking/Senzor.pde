@@ -14,9 +14,9 @@ class Grid {
     }
     println("Grid created count: "+cnt);
   }
-  
-  ArrayList getSenzors(){
-   return s; 
+
+  ArrayList getSenzors() {
+    return s;
   }
 }
 
@@ -44,12 +44,12 @@ class Senzor {
     }
     else {
 
-       try{
-      val = (int)brightness(pix[y*W+x]);
-       }catch(Exception e){
-         
-       }
-      
+      try {
+        val = (int)brightness(pix[y*W+x]);
+      }
+      catch(Exception e) {
+      }
+
       change = changed();
       mem();
 

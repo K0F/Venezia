@@ -8,7 +8,7 @@ Transmitter transmitter;
 
 int PORT = 10000;
 
-boolean showImage = false;
+boolean showImage = true;
 
 PImage maska;
 
@@ -16,7 +16,7 @@ boolean newMask = true;
 
 String render = P2D;
 
-float tresh =  30;
+float tresh =  20;
 Grid grid;
 ArrayList senzory = new ArrayList(0);
 

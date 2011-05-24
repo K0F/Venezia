@@ -1,45 +1,47 @@
 /**
-* User interaction testing functions
-*/
+ * User interaction testing functions
+ */
 
 
-void mousePressed(){
+void mousePressed() {
 
-    if(mouseButton == LEFT){
+  if (mouseButton == LEFT) {
 
-        for(int i = 0 ;i < globNodes.size();i++){
-            Node n = (Node)globNodes.get(i);
-            float distance = dist(mouseX,mouseY,n.position.x,n.position.y);
+    for (int i = 0 ;i < globNodes.size();i++) {
+      Node n = (Node)globNodes.get(i);
+      float distance = dist(mouseX, mouseY, n.position.x, n.position.y);
 
-            if(distance < 90){
-                n.setFreeze();
-            }
-
-        }
-    }else if(mouseButton == RIGHT){
-        releaseAllFreezes();
+      if (distance < 90) {
+        n.setFreeze();
+      }
     }
-
+  }
+  else if (mouseButton == RIGHT) {
+    releaseAllFreezes();
+  }
 }
 
 
-void keyPressed(){
-    if(key != CODED){
-        if(key == 's' || key == 'S'){
-            dumper.dumpVals();
-            releaseAllFreezes();
-        }
-
+void keyPressed() {
+  if (key != CODED) {
+    if (key == 's' || key == 'S') {
+      dumper.dumpVals();
+      releaseAllFreezes();
     }
+    else if (key == ' ') {
 
+      save("/desk/vizualDev.png");
+    }
+  }
 }
 
 
-void releaseAllFreezes(){
-    for(int i = 0 ;i < globNodes.size();i++){
-        Node n = (Node)globNodes.get(i);
+void releaseAllFreezes() {
+  for (int i = 0 ;i < globNodes.size();i++) {
+    Node n = (Node)globNodes.get(i);
 
-        n.releaseFreeze();
-        n.setVal(0);
-    }
+    n.releaseFreeze();
+    n.setVal(0);
+  }
 }
+

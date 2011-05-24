@@ -7,6 +7,7 @@ class Node{
     float val;
     float radius = 47.5;
     float fading = 30.0;
+    int sum = 0;
     boolean freeze = false;
 
 
@@ -23,10 +24,14 @@ class Node{
 
         if(!freeze)
         modVal();
+        
+        
 
         stroke(255,val/2);
-        strokeWeight(val/25+1);
         noFill();
+        
+        strokeWeight(val/25+1);
+        
         
         if(val>10)
         ellipse(position.x,position.y,(255-val)/3,(255-val)/3);
