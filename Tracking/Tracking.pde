@@ -28,61 +28,68 @@ String ipcam = "rtspsrc location=rtsp://192.168.0.20:554/h264 latency=0 ! decode
 //"video/x-raw-rgb, width="+W+", height="+H+", bpp=32, depth=24";
 
 void setup() {
-  size(W, H,P2D);
-  reset();
+	size(W, H,P2D);
+	reset();
 }
 
 void reset(){
-  textFont(createFont("Verdana",7,false));
-  
-  if(render == P2D)
-  textMode(SCREEN);
-  
-  rectMode(CENTER);
-  
-  cursor(CROSS);
-  
-  transmitter = new Transmitter(this,"127.0.0.1",5555); 
-  
-  pipeline = new GSPipeline(this, ipcam);
-  pipeline.play();
-  
-  grid = new Grid(80);
-  senzory = grid.getSenzors();
+	textFont(createFont("Verdana",7,false));
+
+	if(render == P2D)
+		textMode(SCREEN);
+
+	rectMode(CENTER);
+
+	cursor(CROSS);
+
+	transmitter = new Transmitter(this,"127.0.0.1",5555); 
+
+	pipeline = new GSPipeline(this, ipcam);
+	pipeline.play();
+
+	grid = new Grid(80,0);
+	senzory = grid.getSenzors();
 }
 
 void draw() {
-  //background(0);
-  
-  boolean hasNew = false;
-  
-  if (pipeline.available()) {
-    pipeline.read();
-    pipeline.loadPixels();
-    
-    if(showImage)
-    image(pipeline, 0, 0);
-    hasNew = true;
-  }
-  
-  
-  if(pipeline.pixels!=null)
-  for(int i =0 ;i<senzory.size();i++){
-   Senzor tmp = (Senzor)senzory.get(i);
-   tmp.update(pipeline.pixels);
-   tmp.draw(); 
-  }
+	//background(0);
+
+	boolean hasNew = false;
+
+	if (pipeline.available()) {
+		pipeline.read();
+		pipeline.loadPixels();
+
+		if(showImage)
+			image(pipeline, 0, 0);
+		hasNew = true;
+	}
+
+
+	if(pipeline.pixels!=null)
+		for(int i = 0 ;i<senzory.size();i++){
+			Senzor tmp = (Senzor)senzory.get(i);
+			tmp.update(pipeline.pixels);
+			tmp.draw(); 
+		}
 }
 
 void mousePressed(){
- if(mouseButton==LEFT){
-  senzory.add(new Senzor(senzory.size(),mouseX,mouseY));
- } 
-  
+	if(grid.selectArea){
+		grid.sx = mouseX;
+		grid.sy = mouseY;
+
+	}else{
+
+		if(mouseButton==LEFT){
+			senzory.add(new Senzor(senzory.size(),mouseX,mouseY));
+		} 
+	}
+
 }
 
 void keyPressed(){
-  if(keyCode == DELETE){
-   senzory = new ArrayList(0); 
-  }
+	if(keyCode == DELETE){
+		senzory = new ArrayList(0); 
+	}
 }
