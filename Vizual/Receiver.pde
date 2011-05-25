@@ -12,6 +12,14 @@ class Receiver {
 }
 
 void oscEvent(OscMessage theOscMessage) {
+  
+  if (theOscMessage.addrPattern().equals("/control")) {
+    println("zprava od obsluhy ve tvaru: " + theOscMessage.typetag());
+    
+    if(theOscMessage.typetag().equals("ss")){
+     println(""+theOscMessage.get(0).stringValue()+" "+theOscMessage.get(1).stringValue()); 
+    }
+  }
 
   if (theOscMessage.addrPattern().equals("/tracking")) {
     String tmp = theOscMessage.typetag();
