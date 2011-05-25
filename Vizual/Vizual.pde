@@ -34,7 +34,7 @@ String render = OPENGL;
 
 int PORT = 10000;
 
-float R = 20;
+float R = 10;
 
 float mini = 50;
 float maxi = 0;
@@ -42,6 +42,7 @@ float maxi = 0;
 float lastX = 0;
 float lastY = 0;
 
+boolean retence = false;
 boolean plot = false;
 
 World world;
@@ -55,7 +56,7 @@ Receiver receiver;
 
 
 void setup() {
-	size(1920*2, 1080, render);
+	size(1920, 1080, render);
 	reset();
 }
 
@@ -73,9 +74,6 @@ void reset() {
 		textMode(SCREEN);
 
 	rectMode(CENTER);
-
-
-
 
 	//initialize world coordinates
 	world = new World();
@@ -107,18 +105,24 @@ void draw() {
 	for (int i = 0 ;i< globNodes.size();i++) {
 		Node tmp = (Node)globNodes.get(i);
 		tmp.draw2D();
+
+                if(retence){
 		mini += (min(tmp.sum, mini)-mini)/globNodes.size();
 		maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
-	}
+	        }
+        }
 
+
+        if(retence){
 	for (int i = 0 ;i< globNodes.size();i++) {
 		Node tmp = (Node)globNodes.get(i);
 
 		stroke(0, map(tmp.sum, mini, maxi, 0, 90));
 
 		if (tmp.sum>maxi/5)
-			ellipse(tmp.position.x*world.scale, tmp.position.y*world.scale, R*2, R*2);
+			ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
 	}
+        }
 
 
 

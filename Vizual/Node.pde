@@ -4,7 +4,7 @@ class Node{
 	int id;
 	float val;
 	float radius = 47.5;
-	float fading = 200.0;
+	float fading = 40.0;
 	int sum = 0;
 	int blockNo;
 	boolean freeze = false;
@@ -26,11 +26,11 @@ class Node{
 			modVal();
 
 
-		stroke(0,val);
-		noFill();
+		noStroke();//stroke(255,120);//stroke(0,val);
+		fill(0,val/2);
 
-		if(val>10)
-			ellipse(position.x,position.y,(val)/4+radius,(val)/4+radius);
+		if(val>20)
+			ellipse(position.x,position.y,val/2,val/2);
 
 		int distance = 0;
 
