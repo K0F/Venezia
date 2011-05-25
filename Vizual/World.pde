@@ -1,26 +1,23 @@
 
 //////////////// World class 
 
-class World{
-    PVector position;
-    float scale;
+class World {
+  PVector position;
+  float scale;
 
-    World(){
-        position = new PVector(0,0,0);
-        scale = 0.2;
+  World() {
+    position = new PVector(0, 0, 0);
+    scale = 0.20;
+  }
 
-    }
+  void preDraw() {
+    pushMatrix();
+    translate(position.x, position.y);
+    scale(scale);
+  }
 
-    void preDraw(){
-        pushMatrix();
-        translate(position.x,position.y);
-        scale(scale);
-    }
-
-    void postDraw(){
-        popMatrix();
-
-    }
-
+  void postDraw() {
+    popMatrix();
+  }
 }
 
