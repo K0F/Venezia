@@ -46,7 +46,7 @@ String render = P2D;
 
 float tresh =  20;
 
-int RES = 100;
+int RES = 200;
 
 Grid grid;
 ArrayList senzory = new ArrayList(0);

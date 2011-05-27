@@ -56,8 +56,22 @@ Receiver receiver;
 
 
 void setup() {
-  size(1920*2, 1080, render);
+  size(1280*2, 1024, render);
+   frame.setLocation(0,0);
+  frame.setAlwaysOnTop(true);
+
   reset();
+}
+
+void init() {
+
+
+  frame.setLocation(500, 0);
+  frame.removeNotify();
+  frame.setUndecorated(true);
+   
+  super.init();
+
 }
 
 // make setup things here
@@ -66,7 +80,7 @@ void reset() {
     hint(ENABLE_OPENGL_4X_SMOOTH);
 
   if (render == P2D)
-    smooth();
+    noSmooth();
 
   textFont(createFont("Verdana", 7, false));
 
@@ -100,7 +114,23 @@ void draw() {
 
   // world pre draw routine 
   world.preDraw();
+  if (retence) {
+    for (int i = 0 ;i< globNodes.size();i++) {
+      Node tmp = (Node)globNodes.get(i);
 
+
+
+      if (tmp.sum>maxi/10) {
+        stroke(map(tmp.sum, mini, maxi, 255, 100)); 
+        rect(tmp.position.x, tmp.position.y, R*2, R*2);
+      }
+
+      if (tmp.sum==maxi) {
+        fill(0);
+        text(tmp.id+" : "+tmp.blockNo, tmp.position.x, tmp.position.y);
+      }
+    }
+  }
 
 
   // draw nodes here
@@ -113,22 +143,6 @@ void draw() {
       maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
     }
   }
-
-
-  if (retence) {
-    for (int i = 0 ;i< globNodes.size();i++) {
-      Node tmp = (Node)globNodes.get(i);
-
-
-
-      if (tmp.sum>maxi/5) {
-        stroke(map(tmp.sum, mini, maxi, 255, 100)); 
-        rect(tmp.position.x, tmp.position.y, R*2, R*2);
-      }
-    }
-  }
-
-
 
   // world post draw routine
   world.postDraw();

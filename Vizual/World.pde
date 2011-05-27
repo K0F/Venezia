@@ -7,7 +7,7 @@ class World {
 
   World() {
     position = new PVector(0, 0, 0);
-    scale = 0.20;
+    scale = 0.23;
   }
 
   void preDraw() {
