@@ -26,8 +26,8 @@ class Node {
 			modVal();
 
 
-		noStroke();//noFill();//stroke(255,120);//stroke(0,val);
-		fill(0,(255-val)/2.0);
+		noFill();//noFill();//stroke(255,120);//stroke(0,val);
+		stroke(0,(255-val)/2.0);
 
 		if (val>20)
 			ellipse(position.x, position.y, (val), (val));

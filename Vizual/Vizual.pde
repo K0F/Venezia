@@ -30,7 +30,7 @@ import netP5.*;
 
 boolean debug = false;
 
-String render = P2D;
+String render = OPENGL;
 
 int PORT = 10000;
 
@@ -42,8 +42,13 @@ float maxi = 0;
 float lastX = 0;
 float lastY = 0;
 
-boolean retence = true;
+boolean retence = false;
 boolean plot = false;
+
+boolean fading = false;
+boolean light = false;
+boolean lightLast = false;
+float illumS, illum;
 
 World world;
 DataParser parser;
@@ -57,7 +62,7 @@ Receiver receiver;
 
 void setup() {
   size(1280*2, 1024, render);
-   frame.setLocation(0,0);
+  frame.setLocation(0, 0);
   frame.setAlwaysOnTop(true);
 
   reset();
@@ -66,12 +71,11 @@ void setup() {
 void init() {
 
 
-  frame.setLocation(500, 0);
+  frame.setLocation(0, 0);
   frame.removeNotify();
   frame.setUndecorated(true);
-   
-  super.init();
 
+  super.init();
 }
 
 // make setup things here
@@ -106,11 +110,20 @@ void reset() {
 
   if (plot)
     plotter = new Plotter();
+
+  R /= world.scale;
+  illum = illumS = 255;
 }
 
 void draw() {
 
-  background(255);
+  if (fading) {
+    background(illumS);
+    illumS += (illum-illumS)/30.0;
+  }
+  else {
+    background(0);
+  }
 
   // world pre draw routine 
   world.preDraw();
@@ -121,8 +134,10 @@ void draw() {
 
 
       if (tmp.sum>maxi/10) {
-        stroke(map(tmp.sum, mini, maxi, 255, 100)); 
-        rect(tmp.position.x, tmp.position.y, R*2, R*2);
+        stroke(map(tmp.sum, mini, maxi, 255, 127)); 
+        //line(tmp.position.x-R, tmp.position.y-R,tmp.position.x+R,tmp.position.y+R);
+        //line(tmp.position.x+R, tmp.position.y-R,tmp.position.x-R,tmp.position.y+R);
+        ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
       }
 
       if (tmp.sum==maxi) {
@@ -132,17 +147,42 @@ void draw() {
     }
   }
 
+  lightLast = light;
+
+  light = false;
+  int cnt = 0;
 
   // draw nodes here
   for (int i = 0 ;i< globNodes.size();i++) {
     Node tmp = (Node)globNodes.get(i);
     tmp.draw2D();
 
+    if (tmp.val>10)
+      cnt ++;
+
     if (retence) {
       mini += (min(tmp.sum, mini)-mini)/globNodes.size();
       maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
     }
   }
+
+  if (fading) {
+    if (cnt>200)
+      light = true;
+    else
+      light = false;
+
+    if (light && !lightLast) {
+      illum = 255;
+    }
+    else if (!light && lightLast) {
+      illum = 50;
+    }
+    else if (!light && !lightLast) {
+      illum = 50;
+    }
+  }
+
 
   // world post draw routine
   world.postDraw();
