@@ -37,6 +37,7 @@ int PORT = 10000;
 int MODE = 1;
 
 boolean showImage = true;
+boolean loadState = true;
 
 PImage maska;
 
@@ -79,7 +80,16 @@ void reset(){
 	pipeline.play();
 
 	grid = new Grid(RES,MODE);
-	senzory = grid.getSenzors();
+	
+        if(loadState){
+          String [] raw = loadStrings("gridPos.txt");
+          grid.sx = parseInt(raw[0]);
+          grid.sy = parseInt(raw[1]);
+          grid.ex = parseInt(raw[2]);
+          grid.ey = parseInt(raw[3]);
+          grid.generateBox();
+        }
+        senzory = grid.getSenzors();
 }
 
 void draw() {

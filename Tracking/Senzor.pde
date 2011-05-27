@@ -38,9 +38,14 @@ class Grid {
   void generateBox() {
 
     int cnt = 0;
+    
+    if(!loadState){
+    ex = mouseX;
+    ey = mouseY;
+    }
 
-    for (int y = grid.sy; y < mouseY; y += grid.res) {
-      for (int x = grid.sx ; x < mouseX ; x+= grid.res) {
+    for (int y = grid.sy; y < ey; y += grid.res) {
+      for (int x = grid.sx ; x < ex ; x+= grid.res) {
         s.add(new Senzor(cnt, x, y));
         cnt ++;
       }
@@ -74,7 +79,7 @@ class Senzor {
     id = _id;
     val = lastVal = 0;
 
-    println("adding senzor no: "+id+" on X:"+x+"  Y: "+y);
+    //println("adding senzor no: "+id+" on X:"+x+"  Y: "+y);
   }
 
   void update(int [] pix) {
