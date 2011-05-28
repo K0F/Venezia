@@ -25,8 +25,9 @@ void mousePressed() {
 void keyPressed() {
   if (key != CODED) {
     if (key == 's' || key == 'S') {
-      dumper.dumpVals();
-      releaseAllFreezes();
+      //dumper.dumpVals();
+      dumper.dumpBlocks();
+	releaseAllFreezes();
     }
     else if (key == ' ') {
 

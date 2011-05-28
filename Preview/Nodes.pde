@@ -13,10 +13,10 @@ class Node {
 
   float basez;
 
-  Node(int _id, float _x, float _y, float _z) {
+  Node(int _id, float _x, float _y, float _z,int _val) {
     id = _id;
     position = new PVector(_x, _y, _z);
-    val = 0;
+    newVal = val = _val;
 
     W = max(W, position.x);
     H = max(H, position.y);

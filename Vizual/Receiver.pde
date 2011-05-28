@@ -36,7 +36,7 @@ void oscEvent(OscMessage theOscMessage) {
       if (d<R) {
         activ.val += map(d, 0, R, 255, 0);
         activ.val = constrain(activ.val, 0, 255);
-        activ.sum++;
+        activ.sum+=0.1;
       }
     }
   }

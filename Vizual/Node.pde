@@ -5,7 +5,7 @@ class Node {
 	float val;
 	float radius = 47.5;
 	float fading = 30.0;
-	int sum = 0;
+	float sum = 0;
 	int blockNo;
 	boolean freeze = false;
 

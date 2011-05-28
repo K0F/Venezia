@@ -30,7 +30,7 @@ import netP5.*;
 
 boolean debug = false;
 
-String render = OPENGL;
+String render = P2D;
 
 int PORT = 10000;
 
@@ -61,130 +61,129 @@ Receiver receiver;
 
 
 void setup() {
-  size(1280*2, 1024, render);
-  frame.setLocation(0, 0);
-  frame.setAlwaysOnTop(true);
+	size(1680*2, 1050, render);
+	frame.setLocation(0, 0);
+	//frame.setAlwaysOnTop(true);
 
-  reset();
+	reset();
 }
 
 void init() {
 
 
-  frame.setLocation(0, 0);
-  frame.removeNotify();
-  frame.setUndecorated(true);
-
-  super.init();
+	frame.removeNotify();
+	frame.setUndecorated(true);
+	frame.addNotify();
+	super.init();
 }
 
 // make setup things here
 void reset() {
-  if (render == OPENGL) 
-    hint(ENABLE_OPENGL_4X_SMOOTH);
+	if (render == OPENGL) 
+		hint(DISABLE_OPENGL_2X_SMOOTH);
 
-  if (render == P2D)
-    noSmooth();
+	if (render == P2D)
+		noSmooth();
 
-  textFont(createFont("Verdana", 7, false));
+	textFont(createFont("Verdana", 7, false));
 
-  if (render == P2D)
-    textMode(SCREEN);
+	if (render == P2D)
+		textMode(SCREEN);
 
-  rectMode(CENTER);
+	rectMode(CENTER);
 
-  //initialize world coordinates
-  world = new World();
+	//initialize world coordinates
+	world = new World();
 
-  //load default positions grid
-  parser = new DataParser("foundation.2dg");
+	//load default positions grid
+	parser = new DataParser("foundation.2dg");
 
-  //get nodes from parser
-  globNodes = parser.getNodes();
+	//get nodes from parser
+	globNodes = parser.getNodes();
 
-  // init OSC listener class
-  receiver = new Receiver(this, PORT);
+	// init OSC listener class
+	receiver = new Receiver(this, PORT);
 
-  // init dump class
-  dumper = new DataDump(globNodes, "output/testDump.txt");
+	// init dump class
+	dumper = new DataDump(globNodes, "output/testDump.txt");
 
-  if (plot)
-    plotter = new Plotter();
+	if (plot)
+		plotter = new Plotter();
 
-  R /= world.scale;
-  illum = illumS = 255;
+	R /= world.scale;
+	illum = illumS = 255;
 }
 
 void draw() {
 
-  if (fading) {
-    background(illumS);
-    illumS += (illum-illumS)/30.0;
-  }
-  else {
-    background(0);
-  }
+	if (fading) {
+		background(illumS);
+		illumS += (illum-illumS)/30.0;
+	}
+	else {
+		background(255);
+	}
 
-  // world pre draw routine 
-  world.preDraw();
-  if (retence) {
-    for (int i = 0 ;i< globNodes.size();i++) {
-      Node tmp = (Node)globNodes.get(i);
-
-
-
-      if (tmp.sum>maxi/10) {
-        stroke(map(tmp.sum, mini, maxi, 255, 127)); 
-        //line(tmp.position.x-R, tmp.position.y-R,tmp.position.x+R,tmp.position.y+R);
-        //line(tmp.position.x+R, tmp.position.y-R,tmp.position.x-R,tmp.position.y+R);
-        ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
-      }
-
-      if (tmp.sum==maxi) {
-        fill(0);
-        text(tmp.id+" : "+tmp.blockNo, tmp.position.x, tmp.position.y);
-      }
-    }
-  }
-
-  lightLast = light;
-
-  light = false;
-  int cnt = 0;
-
-  // draw nodes here
-  for (int i = 0 ;i< globNodes.size();i++) {
-    Node tmp = (Node)globNodes.get(i);
-    tmp.draw2D();
-
-    if (tmp.val>10)
-      cnt ++;
-
-    if (retence) {
-      mini += (min(tmp.sum, mini)-mini)/globNodes.size();
-      maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
-    }
-  }
-
-  if (fading) {
-    if (cnt>200)
-      light = true;
-    else
-      light = false;
-
-    if (light && !lightLast) {
-      illum = 255;
-    }
-    else if (!light && lightLast) {
-      illum = 50;
-    }
-    else if (!light && !lightLast) {
-      illum = 50;
-    }
-  }
+	// world pre draw routine 
+	world.preDraw();
+	if (retence) {
+		for (int i = 0 ;i< globNodes.size();i++) {
+			Node tmp = (Node)globNodes.get(i);
 
 
-  // world post draw routine
-  world.postDraw();
+
+			if (tmp.sum>maxi/10) {
+				stroke(map(tmp.sum, mini, maxi, 255, 127)); 
+				//line(tmp.position.x-R, tmp.position.y-R,tmp.position.x+R,tmp.position.y+R);
+				//line(tmp.position.x+R, tmp.position.y-R,tmp.position.x-R,tmp.position.y+R);
+				ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
+			}
+
+			if (tmp.sum==maxi) {
+				fill(0);
+				text(tmp.id+" : "+tmp.blockNo, tmp.position.x, tmp.position.y);
+			}
+		}
+	}
+
+	lightLast = light;
+
+	light = false;
+	int cnt = 0;
+
+	// draw nodes here
+	for (int i = 0 ;i< globNodes.size();i++) {
+		Node tmp = (Node)globNodes.get(i);
+		tmp.draw2D();
+
+		if (tmp.val>10)
+			cnt ++;
+
+		if (retence) {
+			mini += (min(tmp.sum, mini)-mini)/globNodes.size();
+			maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
+		}
+	}
+
+	if (fading) {
+		if (cnt>200)
+			light = true;
+		else
+			light = false;
+
+		if (light && !lightLast) {
+			illum = 255;
+		}
+		else if (!light && lightLast) {
+			illum = 50;
+		}
+		else if (!light && !lightLast) {
+			illum = 50;
+		}
+	}
+
+
+	// world post draw routine
+	world.postDraw();
 }
 
