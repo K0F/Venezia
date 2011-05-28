@@ -53,11 +53,16 @@ class Node {
   }
 
   void draw3D() {
-    pushMatrix();
-    fill(lerpColor(#333333, #ffcc00, norm(val, 0, 255)), 220);
-    stroke(0);
+    val += (newVal-val)/fading;
+    position.z = val + basez;
+
+   
+
+pushMatrix();
+    stroke(lerpColor(#333333, #ff0000, norm(val, 0, 1600)), 220);
+    noFill();
     translate(position.x, position.y, position.z);
-    box(radius);
+    box(radius/2);
 
     popMatrix();
   }

@@ -9,13 +9,13 @@ float maxSpeed = 1.0;
 
 int cycle = 2;
 
-int num = 3;
+int num = 10;
 ArrayList gen;
 
 
 void setup(){
     size(640,240,P2D);
-    oscP5 = new OscP5(this,5555);
+    oscP5 = new OscP5(this,10003);
     rectMode(CENTER);
     noFill();
     stroke(#FFFFFF);
@@ -75,7 +75,7 @@ class Generator{
        }
 
        void send(){
-           OscMessage msg = new OscMessage("/tracknig");
+           OscMessage msg = new OscMessage("/tracking");
            msg.add(map(pos.x,0,width,0,1));
            msg.add(map(pos.y,0,height,0,1));
 

@@ -5,7 +5,11 @@ void keyPressed(){
   if(key=='r' || key == 'R'){
    resetVals(); 
   }
- } 
+ }
+
+if(key=='i'){
+	save("screen.png");
+} 
   
 }
 

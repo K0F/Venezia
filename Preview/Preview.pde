@@ -9,7 +9,7 @@ boolean showText = false;
 
 int PORT = 10000;
 
-String render = OPENGL;
+String render = P3D;
 
 PeasyCam cam;
 
@@ -24,7 +24,7 @@ Receiver receiver;
 
 
 void setup(){
-    size(1440,720,render);
+    size(1920,1050,render);
     reset();
 
 
@@ -50,7 +50,7 @@ void setup(){
         H = 0;
 
         //load default positions grid
-        parser = new DataParser("testDump.txt");
+        parser = new DataParser("b032.d2g");
 
         //get nodes from parser
         globNodes = parser.getNodes();
@@ -63,9 +63,9 @@ void setup(){
         // init OSC listener class
         receiver = new Receiver(this,PORT);
 
-        cam = new PeasyCam(this, 1500);
-        cam.setMinimumDistance(1000);
-        cam.setMaximumDistance(2000);
+        cam = new PeasyCam(this, 15000);
+        cam.setMinimumDistance(10000);
+        cam.setMaximumDistance(20000);
 
         
     }
@@ -75,11 +75,10 @@ void draw(){
     
     
 
-    lights();
 
+    //draw2D();    
+lights();
     draw3D();
-    
-    draw2D();
 }
 
 void draw3D(){
@@ -108,10 +107,10 @@ void draw2D(){
 
     // draw nodes here
 
-    for(int i = 0 ;i< globNodes.size();i++){
+/*    for(int i = 0 ;i< globNodes.size();i++){
         Node tmp = (Node)globNodes.get(i);
         tmp.draw2D();
-    }
+    }*/
 
     // world post draw routine
     world.postDraw2D();
