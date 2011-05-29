@@ -4,12 +4,12 @@ import netP5.*;
 OscP5 oscP5;
 NetAddress broadcast;
 
-float speed = 0.1;
+float speed = 0.2;
 float maxSpeed = 1.0;
 
 int cycle = 2;
 
-int num = 10;
+int num = 3;
 ArrayList gen;
 
 

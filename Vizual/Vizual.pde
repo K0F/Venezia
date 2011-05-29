@@ -182,8 +182,19 @@ void draw() {
 		}
 	}
 
+	//ssh trigger, no key input
+	if(frameCount>2000){
+		dumpAndExit();
+	}
+
 
 	// world post draw routine
 	world.postDraw();
+}
+
+void dumpAndExit(){
+	dumper.dumpBlocks();
+	exit();
+
 }
 

@@ -39,14 +39,17 @@ class DataParser {
   void castNodes() {
     nodes = new ArrayList(0);
 
-    int blockNo = 0;
+    println("casting Nodes...");
+
+    int blockId = 0;
     for (int sX = 0;sX < 8*shiftX;sX+=shiftX) {
       for (int sY = 0;sY < 6*shiftY;sY+=shiftY) {
         for (int i = 0;i<coords.size();i++) {
           PVector current = (PVector)coords.get(i);
-          nodes.add(new Node(i, blockNo, current.x+sX, current.y+sY, current.z));
+          nodes.add(new Node(i, blockId, current.x+sX, current.y+sY, current.z));
         }
-        blockNo ++;
+        blockId ++;
+	println(blockId);
       }
     }
   }
