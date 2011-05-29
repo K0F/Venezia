@@ -36,7 +36,7 @@ int PORT = 10000;
 
 float R = 10;
 
-float mini = 50;
+float mini = 1600;
 float maxi = 0;
 
 float lastX = 0;
@@ -159,10 +159,10 @@ void draw() {
 		if (tmp.val>10)
 			cnt ++;
 
-		if (retence) {
+		//if (retence) {
 			mini += (min(tmp.sum, mini)-mini)/globNodes.size();
 			maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
-		}
+		//}
 	}
 
 	if (fading) {
@@ -183,7 +183,7 @@ void draw() {
 	}
 
 	//ssh trigger, no key input
-	if(frameCount>2000){
+	if(frameCount%200==0){
 		dumpAndExit();
 	}
 
@@ -194,7 +194,7 @@ void draw() {
 
 void dumpAndExit(){
 	dumper.dumpBlocks();
-	exit();
+	//exit();
 
 }
 

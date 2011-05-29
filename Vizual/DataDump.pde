@@ -53,8 +53,8 @@ class DataDump {
 
 			for(int i = 0; i< globNodes.size();i++){
 				Node tmp = (Node)(globNodes.get(i));
-				if(i==0)
-					println(q);
+				//if(i==0)
+					//println(q);
 
 				if(q==tmp.blockNo){
 					if(!newBlock){
@@ -67,7 +67,7 @@ class DataDump {
 
 			}
 
-			println("blok no.:"+q+" ma "+oneBlockNodes.size()+" nodu");
+			//println("blok no.:"+q+" ma "+oneBlockNodes.size()+" nodu");
 			Block b = (Block)blocks.get(q);
 			b.fillNodes(oneBlockNodes);
 		}
