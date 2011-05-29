@@ -8,10 +8,12 @@ class DataParser{
     ArrayList coords;
     ArrayList nodes;
     ArrayList vals;
+
+    float fx,fy,fz;
     
     DataParser(String _filename){
         filename = _filename;
-        rawData = loadStrings(filename);
+        rawData = loadStrings(sketchPath+"/blocks/"+filename);
 
         vals = new ArrayList();
 
@@ -34,10 +36,15 @@ class DataParser{
         for(int i = 1; i<tmp.size();i+=2){
             String cline = (String)tmp.get(i-1);
             String[] parsed = splitTokens(cline," :	");
-            coords.add(new PVector(parseFloat(parsed[0]),parseFloat(parsed[1]),parseFloat(parsed[2])));
+            if(i==1){
+                fx = parseFloat(parsed[0]);
+                fy = parseFloat(parsed[1]);
+                fz = parseFloat(parsed[2]);
+            }
+            coords.add(new PVector(parseFloat(parsed[0])-fx,parseFloat(parsed[1])-fy,parseFloat(parsed[2])-fz));
             cline = (String)tmp.get(i);
             parsed = splitTokens(cline,"; ");
-            vals.add((int)parseInt(parsed[0]));
+            vals.add((float)parseFloat(parsed[0]));
         }
     }
 
@@ -45,7 +52,7 @@ class DataParser{
         nodes = new ArrayList(0);
         for(int i = 0;i<coords.size();i++){
             PVector current = (PVector)coords.get(i);
-            int currVal = (Integer)vals.get(i);
+            float currVal = (Float)vals.get(i);
             nodes.add(new Node(i,current.x,current.y,current.z,currVal));
             
         }

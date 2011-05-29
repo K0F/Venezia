@@ -1,4 +1,4 @@
-import processing.opengl.*;
+mport processing.opengl.*;
 import oscP5.*;
 import netP5.*;
 import peasy.*;
@@ -9,11 +9,13 @@ boolean showText = false;
 
 int PORT = 10000;
 
-String render = P3D;
+String render = OPENGL;
 
 PeasyCam cam;
 
 float W,H;
+
+String filename = "bloky.2dg";
 
 World world;
 DataParser parser;
@@ -24,9 +26,8 @@ Receiver receiver;
 
 
 void setup(){
-    size(1920,1050,render);
+    size(1024,768,render);
     reset();
-
 
 }
 
@@ -50,7 +51,7 @@ void setup(){
         H = 0;
 
         //load default positions grid
-        parser = new DataParser("b032.d2g");
+        parser = new DataParser(filename);
 
         //get nodes from parser
         globNodes = parser.getNodes();
@@ -63,28 +64,36 @@ void setup(){
         // init OSC listener class
         receiver = new Receiver(this,PORT);
 
-        cam = new PeasyCam(this, 15000);
-        cam.setMinimumDistance(10000);
-        cam.setMaximumDistance(20000);
+        cam = new PeasyCam(this, 5000);
+        //cam.setMinimumDistance(1000);
+        //cam.setMaximumDistance(2000);
 
-        
+        int mid = (int)(globNodes.size()/2.0);
+        Node midN = (Node)globNodes.get(mid);
+        //cam.lookAt(midN.position.x,midN.position.y,midN.position.z+midN.val);
+
+
+        //cam.setRotations(0,45,30);
     }
 
 void draw(){
     background(0);
-    
-    
 
 
-    //draw2D();    
-lights();
+    lights();
+
+
     draw3D();
+
+    // draw2D();
+    save(hour()+"_"+minute()+"_"+second()+".png");
+    exit();
 }
 
 void draw3D(){
 
     pushMatrix();
-    translate(0,width/3);
+    translate(0,0);
 
     world.preDraw3D();
 
@@ -107,10 +116,10 @@ void draw2D(){
 
     // draw nodes here
 
-/*    for(int i = 0 ;i< globNodes.size();i++){
+    for(int i = 0 ;i< globNodes.size();i++){
         Node tmp = (Node)globNodes.get(i);
         tmp.draw2D();
-    }*/
+    }
 
     // world post draw routine
     world.postDraw2D();

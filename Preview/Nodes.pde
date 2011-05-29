@@ -13,7 +13,7 @@ class Node {
 
   float basez;
 
-  Node(int _id, float _x, float _y, float _z,int _val) {
+  Node(int _id, float _x, float _y, float _z,float _val) {
     id = _id;
     position = new PVector(_x, _y, _z);
     newVal = val = _val;
@@ -56,13 +56,13 @@ class Node {
     val += (newVal-val)/fading;
     position.z = val + basez;
 
-   
 
-pushMatrix();
-    stroke(lerpColor(#333333, #ff0000, norm(val, 0, 1600)), 220);
-    noFill();
+
+    pushMatrix();
+    fill(lerpColor(#333333, #ffcc00, norm(val, 0, 255)), 220);
+    stroke(0);
     translate(position.x, position.y, position.z);
-    box(radius/2);
+    box(radius);
 
     popMatrix();
   }
