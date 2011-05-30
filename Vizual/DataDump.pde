@@ -59,7 +59,7 @@ class DataDump {
 			for(int i = 0; i< globNodes.size();i++){
 				Node tmp = (Node)(globNodes.get(i));
 				//if(i==0)
-					//println(q);
+				//println(q);
 
 				if(q==tmp.blockNo){
 					if(!newBlock){
@@ -77,7 +77,7 @@ class DataDump {
 			b.fillNodes(oneBlockNodes);
 		}
 
-		
+
 
 
 		for(int i = 0;i<blocks.size();i++){
@@ -85,10 +85,10 @@ class DataDump {
 			ArrayList raw = new ArrayList(0);
 			for(int n =0;n<b.nodes.size();n++){
 				Node tmpnode = (Node)b.nodes.get(n);
-				
-				 //coordinte hack
+
+				//coordinte hack
 				raw.add(tmpnode.position.x+":"+map(tmpnode.position.y,0,maxY,maxY,0)+":"+tmpnode.position.z);
-				
+
 				raw.add(" "+map(tmpnode.sum,mini,maxi,0,1600)+";");
 			}
 
@@ -97,7 +97,12 @@ class DataDump {
 				String line = (String)raw.get(ln);
 				arr[ln] = line;
 			}
-			saveStrings("blocks/"+D+"_"+M+"-"+H+"_"+MN+"/b"+nf(i,3)+".2dg",arr);
+			if(time){
+				saveStrings("blocks/"+D+"_"+M+"-"+H+"_"+MN+"/b"+nf(i,3)+".2dg",arr);
+
+			}else{
+				saveStrings("blocks/b"+nf(i,3)+".2dg");
+			}
 		}
 
 

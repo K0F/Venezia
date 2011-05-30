@@ -231,3 +231,8 @@ void dumpAndExit(){
 
 }
 
+void exit(){
+	dumper.dumpBlocks(false);
+	super.exit();
+}
+
