@@ -85,7 +85,10 @@ class DataDump {
 			ArrayList raw = new ArrayList(0);
 			for(int n =0;n<b.nodes.size();n++){
 				Node tmpnode = (Node)b.nodes.get(n);
-				raw.add(tmpnode.position.x+":"+tmpnode.position.y+":"+tmpnode.position.z);
+				
+				 //coordinte hack
+				raw.add(tmpnode.position.x+":"+map(tmpnode.position.y,0,maxY,maxY,0)+":"+tmpnode.position.z);
+				
 				raw.add(" "+map(tmpnode.sum,mini,maxi,0,1600)+";");
 			}
 

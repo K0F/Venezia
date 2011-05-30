@@ -28,6 +28,11 @@ import processing.opengl.*;
 import oscP5.*;
 import netP5.*;
 
+
+//////////////////////////////
+
+boolean backups = false;
+
 boolean debug = false;
 
 String render = P2D;
@@ -42,6 +47,8 @@ float maxi = 0;
 float lastX = 0;
 float lastY = 0;
 
+float maxY = 0;
+
 boolean retence = false;
 boolean plot = false;
 
@@ -49,6 +56,9 @@ boolean fading = false;
 boolean light = false;
 boolean lightLast = false;
 float illumS, illum;
+
+
+//////////////////////////////
 
 World world;
 DataParser parser;
@@ -60,6 +70,8 @@ ArrayList globNodes;
 Receiver receiver;
 
 
+//////////////////////////////
+
 void setup() {
 	size(1400*2, 1050, render);
 	frame.setLocation(0, 0);
@@ -67,6 +79,9 @@ void setup() {
 
 	reset();
 }
+
+
+//////////////////////////////
 
 void init() {
 
@@ -77,18 +92,22 @@ void init() {
 	super.init();
 }
 
+
+//////////////////////////////
 // make setup things here
 void reset() {
 	if (render == OPENGL) 
 		hint(DISABLE_OPENGL_2X_SMOOTH);
 
-	if (render == P2D)
+	if (render == P2D){
 		noSmooth();
+		noCursor();
+	}
 
-	textFont(createFont("Verdana", 7, false));
+	textFont(createFont("Verdana", 20, false));
 
-	if (render == P2D)
-		textMode(SCREEN);
+//	if (render == P2D)
+//		textMode(SCREEN);
 
 	rectMode(CENTER);
 
@@ -113,10 +132,15 @@ void reset() {
 	R /= world.scale;
 	illum = illumS = 255;
 
+	frameRate(30);	
+
     	println("################################");
         println("###      VIZUAL RUNNING      ###");
         println("################################");	
 }
+
+
+//////////////////////////////
 
 void draw() {
 
@@ -187,6 +211,7 @@ void draw() {
 	}
 
 	//ssh trigger, no key input
+	if(backups)
 	if(frameCount%2000==0){
 		dumpAndExit();
 	}
@@ -195,6 +220,9 @@ void draw() {
 	// world post draw routine
 	world.postDraw();
 }
+
+
+//////////////////////////////
 
 void dumpAndExit(){
 	

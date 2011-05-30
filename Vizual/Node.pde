@@ -1,6 +1,6 @@
 //////////////// Node Class
 class Node {
-	PVector position;
+        PVector position;
 	int id;
 	float val;
 	float radius = 47.5;
@@ -25,12 +25,12 @@ class Node {
 		if (!freeze)
 			modVal();
 
-
-		noFill();//noFill();//stroke(255,120);//stroke(0,val);
-		stroke(0,(255-val)/2.0);
+		fill(0,val/2);//noFill();//stroke(255,120);//stroke(0,val);
+		stroke(0);//,(255-val)/2);//(0,(255-val)/2.0);
 
 		if (val>20)
-			ellipse(position.x, position.y, (val), (val));
+			ellipse(position.x, position.y, (val)/4, (val)/4);
+		
 
 		noFill();
 		int distance = 0;
