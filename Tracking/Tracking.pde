@@ -45,7 +45,7 @@ boolean newMask = true;
 
 String render = P2D;
 
-float tresh =  20;
+float tresh =  25;
 
 int RES = 200;
 
@@ -90,6 +90,11 @@ void reset(){
           grid.generateBox();
         }
         senzory = grid.getSenzors();
+
+	println("################################");
+	println("###     TRACKING RUNNING     ###");
+	println("################################");
+
 }
 
 void draw() {

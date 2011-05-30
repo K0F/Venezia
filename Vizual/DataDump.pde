@@ -32,8 +32,13 @@ class DataDump {
 			println("data ulozena do souboru: "+filename);
 	}
 
-	void dumpBlocks(){
+	void dumpBlocks(boolean time){
 
+
+		String D = nf(day(),2)+"";
+		String M = nf(month(),2)+"";
+		String H = nf(hour(),2)+"";
+		String MN = nf(minute(),2)+"";
 
 		ArrayList blocks = new ArrayList(0);
 
@@ -43,7 +48,7 @@ class DataDump {
 			blockCnt = max(tmp.blockNo,blockCnt);
 		}
 
-		println("ukladam bloky... pocet: "+blockCnt);
+		println("timestamp: "+D+"/"+M+" "+H+":"+MN+" ukladam bloky... pocet: "+blockCnt);
 
 
 		for(int q = 0;q<blockCnt;q++){
@@ -72,6 +77,8 @@ class DataDump {
 			b.fillNodes(oneBlockNodes);
 		}
 
+		
+
 
 		for(int i = 0;i<blocks.size();i++){
 			Block b = (Block)blocks.get(i);
@@ -87,7 +94,7 @@ class DataDump {
 				String line = (String)raw.get(ln);
 				arr[ln] = line;
 			}
-			saveStrings("blocks/b"+nf(i,3)+".2dg",arr);
+			saveStrings("blocks/"+D+"_"+M+"-"+H+"_"+MN+"/b"+nf(i,3)+".2dg",arr);
 		}
 
 

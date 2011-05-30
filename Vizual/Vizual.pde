@@ -61,7 +61,7 @@ Receiver receiver;
 
 
 void setup() {
-	size(1680*2, 1050, render);
+	size(1400*2, 1050, render);
 	frame.setLocation(0, 0);
 	//frame.setAlwaysOnTop(true);
 
@@ -112,6 +112,10 @@ void reset() {
 
 	R /= world.scale;
 	illum = illumS = 255;
+
+    	println("################################");
+        println("###      VIZUAL RUNNING      ###");
+        println("################################");	
 }
 
 void draw() {
@@ -183,7 +187,7 @@ void draw() {
 	}
 
 	//ssh trigger, no key input
-	if(frameCount%200==0){
+	if(frameCount%2000==0){
 		dumpAndExit();
 	}
 
@@ -193,7 +197,8 @@ void draw() {
 }
 
 void dumpAndExit(){
-	dumper.dumpBlocks();
+	
+	dumper.dumpBlocks(true);
 	//exit();
 
 }

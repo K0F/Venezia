@@ -38,7 +38,8 @@ class DataParser {
 
   void castNodes() {
     nodes = new ArrayList(0);
-
+	
+	if(debug)
     println("casting Nodes...");
 
     int blockId = 0;
@@ -49,6 +50,7 @@ class DataParser {
           nodes.add(new Node(i, blockId, current.x+sX, current.y+sY, current.z));
         }
         blockId ++;
+	if(debug)
 	println(blockId);
       }
     }

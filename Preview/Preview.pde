@@ -1,4 +1,4 @@
-mport processing.opengl.*;
+import processing.opengl.*;
 import oscP5.*;
 import netP5.*;
 import peasy.*;
@@ -9,13 +9,13 @@ boolean showText = false;
 
 int PORT = 10000;
 
-String render = OPENGL;
+String render = P3D;
 
 PeasyCam cam;
 
 float W,H;
 
-String filename = "bloky.2dg";
+String filename = sketchPath+"/collected/30_5_11\:34/b032.2dg";
 
 World world;
 DataParser parser;
@@ -86,8 +86,8 @@ void draw(){
     draw3D();
 
     // draw2D();
-    save(hour()+"_"+minute()+"_"+second()+".png");
-    exit();
+    save(nf(day(),2)+"_"+nf(month(),2)+"_"+nf(hour(),2)+"_"+nf(minute(),2)+"_"+nf(second(),2)+".png");
+  // exit();
 }
 
 void draw3D(){
