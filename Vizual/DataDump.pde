@@ -45,7 +45,7 @@ class DataDump {
 		int blockCnt = 0;
 		for(int i = 0;i<nodes.size();i++){
 			Node tmp = (Node)nodes.get(i);
-			blockCnt = max(tmp.blockNo,blockCnt);
+			blockCnt = max(tmp.blockNo+1,blockCnt);
 		}
 
 		println("timestamp: "+D+"/"+M+" "+H+":"+MN+" ukladam bloky... pocet: "+blockCnt);
@@ -56,20 +56,23 @@ class DataDump {
 			ArrayList oneBlockNodes = new ArrayList(0);
 			boolean newBlock = false;
 
-			for(int i = 0; i< globNodes.size();i++){
-				Node tmp = (Node)(globNodes.get(i));
-				//if(i==0)
-				//println(q);
+			for(int bl = 0;bl < blocks.size();bl++){	
+				Block block = (Block)blocks.get(bl);
+				for(int i = 0; i< block.nodes.size();i++){
+					Node tmp = (Node)(block.nodes.get(i));
+					//if(i==0)
+					//println(q);
 
-				if(q==tmp.blockNo){
-					if(!newBlock){
-						newBlock = true;
-						blocks.add(new Block(q));
+					if(q==tmp.blockNo){
+						if(!newBlock){
+							newBlock = true;
+							blocks.add(new Block(q));
 
+						}
+						oneBlockNodes.add(tmp);
 					}
-					oneBlockNodes.add(tmp);
-				}
 
+				}
 			}
 
 			//println("blok no.:"+q+" ma "+oneBlockNodes.size()+" nodu");
@@ -87,7 +90,7 @@ class DataDump {
 				Node tmpnode = (Node)b.nodes.get(n);
 
 				//coordinte hack
-				raw.add(tmpnode.position.x+":"+map(tmpnode.position.y,0,maxY,maxY,0)+":"+tmpnode.position.z);
+				raw.add(tmpnode.position.x+":"+abs(map(tmpnode.position.y,0,maxY,maxY,0))+":"+tmpnode.position.z);
 
 				raw.add(" "+map(tmpnode.sum,mini,maxi,0,1600)+";");
 			}
@@ -99,28 +102,13 @@ class DataDump {
 			}
 			if(time){
 				saveStrings("blocks/"+D+"_"+M+"-"+H+"_"+MN+"/b"+nf(i,3)+".2dg",arr);
-
+				saveStrings("blocks/b"+nf(i,3)+".2dg",arr);
 			}else{
-				saveStrings("blocks/b"+nf(i,3)+".2dg");
+				saveStrings("blocks/b"+nf(i,3)+".2dg",arr);
 			}
 		}
 
 
 	}
-}
-
-class Block{
-	ArrayList nodes;
-	int id;
-
-	Block(int _id){
-		id = _id;
-
-	}
-
-	void fillNodes(ArrayList a){
-		nodes = a;
-	}
-
 }
 

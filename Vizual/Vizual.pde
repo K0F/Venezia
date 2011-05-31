@@ -31,7 +31,7 @@ import netP5.*;
 
 //////////////////////////////
 
-boolean backups = false;
+boolean backups = true;
 
 boolean debug = false;
 
@@ -57,6 +57,8 @@ boolean light = false;
 boolean lightLast = false;
 float illumS, illum;
 
+int nodeCount = 0;
+int blockCount = 0;
 
 //////////////////////////////
 
@@ -65,8 +67,8 @@ DataParser parser;
 DataDump dumper;
 Plotter plotter;
 
-ArrayList globNodes;
-
+//ArrayList globNodes;
+ArrayList blocks;
 Receiver receiver;
 
 
@@ -84,8 +86,6 @@ void setup() {
 //////////////////////////////
 
 void init() {
-
-
 	frame.removeNotify();
 	frame.setUndecorated(true);
 	frame.addNotify();
@@ -106,8 +106,8 @@ void reset() {
 
 	textFont(createFont("Verdana", 20, false));
 
-//	if (render == P2D)
-//		textMode(SCREEN);
+	//	if (render == P2D)
+	//		textMode(SCREEN);
 
 	rectMode(CENTER);
 
@@ -118,25 +118,27 @@ void reset() {
 	parser = new DataParser("foundation.2dg");
 
 	//get nodes from parser
-	globNodes = parser.getNodes();
+	//globNodes = parser.getNodes();
 
 	// init OSC listener class
 	receiver = new Receiver(this, PORT);
 
 	// init dump class
-	dumper = new DataDump(globNodes, "output/testDump.txt");
+	dumper = new DataDump(blocks, "output/testDump.txt");
 
 	if (plot)
 		plotter = new Plotter();
+
+	parser.loadCurrentVals();
 
 	R /= world.scale;
 	illum = illumS = 255;
 
 	frameRate(30);	
 
-    	println("################################");
-        println("###      VIZUAL RUNNING      ###");
-        println("################################");	
+	println("################################");
+	println("###      VIZUAL RUNNING      ###");
+	println("################################");	
 }
 
 
@@ -155,21 +157,25 @@ void draw() {
 	// world pre draw routine 
 	world.preDraw();
 	if (retence) {
-		for (int i = 0 ;i< globNodes.size();i++) {
-			Node tmp = (Node)globNodes.get(i);
+
+		for(int bl = 0;bl < blocks.size();bl++){
+			Block block = (Block)blocks.get(bl);
+			for (int i = 0 ;i< block.nodes.size();i++) {
+				Node tmp = (Node)block.nodes.get(i);
 
 
 
-			if (tmp.sum>maxi/10) {
-				stroke(map(tmp.sum, mini, maxi, 255, 127)); 
-				//line(tmp.position.x-R, tmp.position.y-R,tmp.position.x+R,tmp.position.y+R);
-				//line(tmp.position.x+R, tmp.position.y-R,tmp.position.x-R,tmp.position.y+R);
-				ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
-			}
+				if (tmp.sum>maxi/10) {
+					stroke(map(tmp.sum, mini, maxi, 255, 127)); 
+					//line(tmp.position.x-R, tmp.position.y-R,tmp.position.x+R,tmp.position.y+R);
+					//line(tmp.position.x+R, tmp.position.y-R,tmp.position.x-R,tmp.position.y+R);
+					ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
+				}
 
-			if (tmp.sum==maxi) {
-				fill(0);
-				text(tmp.id+" : "+tmp.blockNo, tmp.position.x, tmp.position.y);
+				if (tmp.sum==maxi) {
+					fill(0);
+					text(tmp.id+" : "+tmp.blockNo, tmp.position.x, tmp.position.y);
+				}
 			}
 		}
 	}
@@ -180,17 +186,21 @@ void draw() {
 	int cnt = 0;
 
 	// draw nodes here
-	for (int i = 0 ;i< globNodes.size();i++) {
-		Node tmp = (Node)globNodes.get(i);
-		tmp.draw2D();
+	for(int bl = 0;bl < blocks.size();bl++){
+		Block block = (Block)blocks.get(bl);
+		for (int i = 0 ;i< block.nodes.size();i++) {
 
-		if (tmp.val>10)
-			cnt ++;
+			Node tmp = (Node)block.nodes.get(i);
+			tmp.draw2D();
 
-		//if (retence) {
-			mini += (min(tmp.sum, mini)-mini)/globNodes.size();
-			maxi += (max(tmp.sum, maxi)-maxi)/globNodes.size();
-		//}
+			if (tmp.val>10)
+				cnt ++;
+
+			//if (retence) {
+			mini += (min(tmp.sum, mini)-mini)/(nodeCount+0.0);
+			maxi += (max(tmp.sum, maxi)-maxi)/(nodeCount+0.0);
+			//}
+		}
 	}
 
 	if (fading) {
@@ -212,9 +222,9 @@ void draw() {
 
 	//ssh trigger, no key input
 	if(backups)
-	if(frameCount%2000==0){
-		dumpAndExit();
-	}
+		if(frameCount%2000==0){
+			dumpAndExit();
+		}
 
 
 	// world post draw routine
@@ -225,7 +235,7 @@ void draw() {
 //////////////////////////////
 
 void dumpAndExit(){
-	
+
 	dumper.dumpBlocks(true);
 	//exit();
 

@@ -15,7 +15,7 @@ PeasyCam cam;
 
 float W,H;
 
-String filename = sketchPath+"/collected/30_5_11\:34/b032.2dg";
+String filename = sketchPath+"/collected/";
 
 World world;
 DataParser parser;
@@ -26,103 +26,102 @@ Receiver receiver;
 
 
 void setup(){
-    size(1024,768,render);
-    reset();
-
+	size(1024,768,render);
+	reset();
 }
 
-    void reset(){
-        if(render == OPENGL) 
-            hint(ENABLE_OPENGL_4X_SMOOTH);
+void reset(){
+	if(render == OPENGL) 
+		hint(ENABLE_OPENGL_4X_SMOOTH);
 
-        if(render == P3D)
-            noSmooth();
+	if(render == P3D)
+		noSmooth();
 
-        textFont(createFont("Verdana",7,false));
+	textFont(createFont("Verdana",7,false));
 
-        if(render == P3D)
-            textMode(SCREEN);
-
-
-        brush = new Brush("peak.png");
-
-        //set initial width, height
-        W = 0;
-        H = 0;
-
-        //load default positions grid
-        parser = new DataParser(filename);
-
-        //get nodes from parser
-        globNodes = parser.getNodes();
+	if(render == P3D)
+		textMode(SCREEN);
 
 
+	brush = new Brush("peak.png");
 
-        //initialize world coordinates
-        world = new World(0.25,0,0,0);
+	//set initial width, height
+	W = 0;
+	H = 0;
 
-        // init OSC listener class
-        receiver = new Receiver(this,PORT);
+	//load default positions grid
+	parser = new DataParser(filename);
 
-        cam = new PeasyCam(this, 5000);
-        //cam.setMinimumDistance(1000);
-        //cam.setMaximumDistance(2000);
-
-        int mid = (int)(globNodes.size()/2.0);
-        Node midN = (Node)globNodes.get(mid);
-        //cam.lookAt(midN.position.x,midN.position.y,midN.position.z+midN.val);
+	//get nodes from parser
+	globNodes = parser.getNodes();
 
 
-        //cam.setRotations(0,45,30);
-    }
+
+	//initialize world coordinates
+	world = new World(0.25,0,0,0);
+
+	// init OSC listener class
+	receiver = new Receiver(this,PORT);
+
+	cam = new PeasyCam(this, 5000);
+	//cam.setMinimumDistance(1000);
+	//cam.setMaximumDistance(2000);
+
+	int mid = (int)(globNodes.size()/2.0);
+	Node midN = (Node)globNodes.get(mid);
+	//cam.lookAt(midN.position.x,midN.position.y,midN.position.z+midN.val);
+
+
+	//cam.setRotations(0,45,30);
+}
 
 void draw(){
-    background(0);
+	background(0);
 
 
-    lights();
+	lights();
 
 
-    draw3D();
+	draw3D();
 
-    // draw2D();
-    save(nf(day(),2)+"_"+nf(month(),2)+"_"+nf(hour(),2)+"_"+nf(minute(),2)+"_"+nf(second(),2)+".png");
-  // exit();
+	// draw2D();
+	save(nf(day(),2)+"_"+nf(month(),2)+"_"+nf(hour(),2)+"_"+nf(minute(),2)+"_"+nf(second(),2)+".png");
+	// exit();
 }
 
 void draw3D(){
 
-    pushMatrix();
-    translate(0,0);
+	pushMatrix();
+	translate(0,0);
 
-    world.preDraw3D();
+	world.preDraw3D();
 
-    for(int i = 0 ;i< globNodes.size();i++){
-        Node tmp = (Node)globNodes.get(i);
-        tmp.draw3D();
-    }
+	for(int i = 0 ;i< globNodes.size();i++){
+		Node tmp = (Node)globNodes.get(i);
+		tmp.draw3D();
+	}
 
-    world.postDraw3D();
+	world.postDraw3D();
 
-    popMatrix();
+	popMatrix();
 
 }
 
 void draw2D(){
 
-    cam.beginHUD();
-    // world pre draw routine 
-    world.preDraw2D();
+	cam.beginHUD();
+	// world pre draw routine 
+	world.preDraw2D();
 
-    // draw nodes here
+	// draw nodes here
 
-    for(int i = 0 ;i< globNodes.size();i++){
-        Node tmp = (Node)globNodes.get(i);
-        tmp.draw2D();
-    }
+	for(int i = 0 ;i< globNodes.size();i++){
+		Node tmp = (Node)globNodes.get(i);
+		tmp.draw2D();
+	}
 
-    // world post draw routine
-    world.postDraw2D();
+	// world post draw routine
+	world.postDraw2D();
 
-    cam.endHUD();
+	cam.endHUD();
 }
