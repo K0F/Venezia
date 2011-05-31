@@ -28,12 +28,11 @@ import processing.opengl.*;
 import oscP5.*;
 import netP5.*;
 
-
 //////////////////////////////
 
 boolean backups = true;
 
-boolean debug = false;
+boolean debug = true;
 
 String render = P2D;
 
@@ -67,10 +66,9 @@ DataParser parser;
 DataDump dumper;
 Plotter plotter;
 
-//ArrayList globNodes;
+ArrayList globNodes;
 ArrayList blocks;
 Receiver receiver;
-
 
 //////////////////////////////
 
@@ -81,7 +79,6 @@ void setup() {
 
 	reset();
 }
-
 
 //////////////////////////////
 
@@ -118,18 +115,19 @@ void reset() {
 	parser = new DataParser("foundation.2dg");
 
 	//get nodes from parser
-	//globNodes = parser.getNodes();
+	globNodes = parser.getNodes();
 
 	// init OSC listener class
 	receiver = new Receiver(this, PORT);
 
 	// init dump class
-	dumper = new DataDump(blocks, "output/testDump.txt");
-
+	dumper = new DataDump("output/testDump.txt");
+	//dumper.dumpBlocks(false);
+	
 	if (plot)
 		plotter = new Plotter();
 
-	parser.loadCurrentVals();
+	//parser.loadCurrentVals();
 
 	R /= world.scale;
 	illum = illumS = 255;
@@ -139,8 +137,8 @@ void reset() {
 	println("################################");
 	println("###      VIZUAL RUNNING      ###");
 	println("################################");	
+	println(nodeCount);
 }
-
 
 //////////////////////////////
 
@@ -162,8 +160,6 @@ void draw() {
 			Block block = (Block)blocks.get(bl);
 			for (int i = 0 ;i< block.nodes.size();i++) {
 				Node tmp = (Node)block.nodes.get(i);
-
-
 
 				if (tmp.sum>maxi/10) {
 					stroke(map(tmp.sum, mini, maxi, 255, 127)); 
@@ -226,11 +222,9 @@ void draw() {
 			dumpAndExit();
 		}
 
-
 	// world post draw routine
 	world.postDraw();
 }
-
 
 //////////////////////////////
 
@@ -238,7 +232,6 @@ void dumpAndExit(){
 
 	dumper.dumpBlocks(true);
 	//exit();
-
 }
 
 void exit(){

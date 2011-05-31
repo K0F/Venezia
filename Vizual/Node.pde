@@ -16,8 +16,8 @@ class Node {
 		val = 0;
 		blockNo = _blockNo;
 
-		if (debug)
-			println("Creating node no "+id);
+		//if (debug)
+		//	println("Creating node no "+id);
 	}
 
 	void draw2D() {

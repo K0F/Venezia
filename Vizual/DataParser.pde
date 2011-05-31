@@ -1,4 +1,3 @@
-
 //////////////// DataParser class
 
 class DataParser {
@@ -6,7 +5,7 @@ class DataParser {
 	String filename;
 
 	ArrayList coords;
-	ArrayList nodes;
+	//ArrayList nodes;
 
 	float shiftX = 1316.359;
 	float shiftY = 658.179;
@@ -14,9 +13,13 @@ class DataParser {
 	DataParser(String _filename) {
 		filename = _filename;
 		rawData = loadStrings(filename);
-
+		//println("stage 1 "+blocks.size());
 		parseVals(rawData);
+		//println("stage 2 "+blocks.size());
 		castNodes();
+		//println("stage 3 "+blocks.size());
+//		loadCurrentVals();
+		//println("stage 4 "+blocks.size());
 	}
 
 	// parse a valuse from given data set
@@ -25,7 +28,6 @@ class DataParser {
 		for (int i = 0;i<data.length;i+=2) {
 			tmp.add((String)data[i]);
 		}
-
 
 		coords = new ArrayList(0);
 
@@ -39,44 +41,52 @@ class DataParser {
 	}
 
 	void castNodes() {
-		nodes = new ArrayList(0);
+		//nodes = new ArrayList(0);
 		blocks = new ArrayList(0);
 
 		if(debug)
 			println("casting Nodes...");
 
-		int blockId = 0;
-		for (float sX = 0;sX < 8*shiftX;sX+=shiftX) {
+		int blockCnt = 0;
+		int nodeCnt = 0;
+		for (float sX = 0;sX < 8*shiftX-2;sX+=shiftX) {
 			// Y hack
-			for (float sY = 5*shiftY ;sY >= 0;sY-=shiftY) {
-
+			for (float sY = 0; sY < 6*shiftY-2 ;sY+=shiftY) {
 				//templorary nodes
 				ArrayList tempNodes = new ArrayList(0);
 
 				for (int i = 0;i<coords.size();i++) {
 					PVector current = (PVector)coords.get(i);
-					nodes.add(new Node(i, blockId, current.x+sX, current.y+sY, current.z));
-						
-					Node currentNode = (Node)nodes.get(i);
-					tempNodes.add(currentNode);
+					//nodes.add(new Node(i, blockId, current.x+sX, current.y+sY, current.z));
+					nodeCnt++;		
+					//Node currentNode = (Node)nodes.get(i);
+					tempNodes.add(new Node(i, blockCnt, current.x+sX, current.y+sY, current.z));
 				}
-				
+
 				// fill blocks with Nodes here
-				blocks.add(new Block(blockId));
-				Block currentBlock = (Block)blocks.get(blockId);
+				blocks.add(new Block(blockCnt));
+				Block currentBlock = (Block)blocks.get(blockCnt);
 				currentBlock.setNodes(tempNodes);
 
-				blockId ++;
-				if(debug)
-					println(blockId);
+				blockCnt ++;
+				//if(debug)
+				//	println(blockcnt);
 			}
 		}
-		blockCount = blockId;
-		nodeCount = nodes.size();
+		blockCount = blockCnt;
+		nodeCount = nodeCnt;
 	}
 
 	ArrayList getNodes() {
-		return nodes;
+		ArrayList _nodes = new ArrayList(0);
+		for(int i =0;i<blocks.size();i++){
+			Block b = (Block)blocks.get(i);
+			for(int ii = 0;ii<b.nodes.size();ii++){
+				Node n = (Node)b.nodes.get(ii);
+				_nodes.add(n);
+			}
+		}
+		return _nodes;
 	}
 
 	void loadCurrentVals(){
@@ -86,33 +96,41 @@ class DataParser {
 		File folder = new File(sketchPath+"/blocks");
 		File[] listOfFiles = folder.listFiles();
 
+		println("nacitam ze zalohy");
 		for(int i = 0 ; i < listOfFiles.length; i++){
 			if(listOfFiles[i].getName().indexOf("2dg")>-1){
 				names.add(listOfFiles[i].getName());
+				println(listOfFiles[i].getName());
 			}
 		}
 
-		for(int i = 0 ; i < names.size();i++){
+		for(int i = 0 ; i < names.size() ; i++){
 			String tmp = (String)names.get(i);
-			int ID = parseInt(split(tmp,"b0.2dg"))[0];
+			int ID = parseInt(tmp.substring(1,4));
+			println(ID);
+			tmp = (String)names.get(i);
 			String[] raw = loadStrings(sketchPath+"/blocks/"+tmp);
 
-			for(int ii = 0 ; ii < nodes.size(); ii++){
-				Node tmpNode = (Node)nodes.get(i);
-				if(ID==tmpNode.blockNo){
-					for(int iii = 0;iii < raw.length;iii++){
-						if(iii==tmpNode.id){
-							tmpNode.val = parseInt(split(raw[iii]," ;")[0]);
+			for(int b = 0 ; b < blocks.size() ; b++){
+				Block bl = (Block)blocks.get(b);
+				for(int ii = 0 ; ii < bl.nodes.size(); ii++){
+					Node tmpNode = (Node)bl.nodes.get(ii);
+					if(ID==tmpNode.blockNo){
+						for(int iii = 0;iii < raw.length;iii++){
+							if(iii==tmpNode.id){
+								String vals;
+								try{
+									vals = split(raw[iii]," ;")[1];
+									tmpNode.sum = parseInt(vals);
+								}catch(Exception e){
+									tmpNode.sum = 0;
+								}
+							}
 						}
 					}
-
 				}
-
 			}
 		}
-
-
-
 	}
 }
 

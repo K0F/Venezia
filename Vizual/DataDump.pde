@@ -2,23 +2,24 @@
 //////////////// DataDump class 
 
 class DataDump {
-	ArrayList nodes;
 	String filename;
 
-	DataDump(ArrayList _nodes, String _filename) {
-		nodes = _nodes;
+	DataDump(String _filename) {
 		filename = _filename;
 	}
 
 	void dumpVals() {
 		ArrayList data = new ArrayList(0);
 
-		for (int i = 0 ;i < nodes.size();i++) {
-			Node n = (Node)nodes.get(i);
-			String tmpCoord = ""+n.position.x+":"+n.position.y+":"+n.position.z;
-			String tmpVal = " "+n.val+";";
-			data.add(tmpCoord);
-			data.add(tmpVal);
+		for(int q = 0 ; q < blocks.size() ; q++){
+			Block tmp = (Block)blocks.get(q);
+			for (int i = 0 ;i < tmp.nodes.size();i++) {
+				Node n = (Node)tmp.nodes.get(i);
+				String tmpCoord = n.position.x+":"+n.position.y+":"+n.position.z;
+				String tmpVal = " "+n.val+";";
+				data.add(tmpCoord);
+				data.add(tmpVal);
+			}
 		}
 
 		String dump[] = new String[data.size()];
@@ -40,47 +41,50 @@ class DataDump {
 		String H = nf(hour(),2)+"";
 		String MN = nf(minute(),2)+"";
 
-		ArrayList blocks = new ArrayList(0);
+		//ArrayList blocks = new ArrayList(0);
 
+		//compute all nodes count
 		int blockCnt = 0;
-		for(int i = 0;i<nodes.size();i++){
-			Node tmp = (Node)nodes.get(i);
-			blockCnt = max(tmp.blockNo+1,blockCnt);
+		for(int q = 0 ; q < blocks.size(); q++){
+			Block tmpblock = (Block)blocks.get(q);
+			for(int i = 0;i<tmpblock.nodes.size();i++){
+				Node tmp = (Node)tmpblock.nodes.get(i);
+				blockCnt = max(tmp.blockNo+1,blockCnt);
+			}
 		}
 
 		println("timestamp: "+D+"/"+M+" "+H+":"+MN+" ukladam bloky... pocet: "+blockCnt);
 
+		/*
+		   ArrayList temp = new ArrayList(0);
+		   for(int q = 0;q<blockCnt;q++){
 
-		for(int q = 0;q<blockCnt;q++){
+		   ArrayList oneBlockNodes = new ArrayList(0);
+		   boolean newBlock = false;
 
-			ArrayList oneBlockNodes = new ArrayList(0);
-			boolean newBlock = false;
+		   for(int bl = 0;bl < blocks.size();bl++){	
+		   Block block = (Block)blocks.get(bl);
+		   for(int i = 0; i< block.nodes.size();i++){
+		   Node tmp = (Node)(block.nodes.get(i));
+		//if(i==0)
+		//println(q);
 
-			for(int bl = 0;bl < blocks.size();bl++){	
-				Block block = (Block)blocks.get(bl);
-				for(int i = 0; i< block.nodes.size();i++){
-					Node tmp = (Node)(block.nodes.get(i));
-					//if(i==0)
-					//println(q);
+		if(q==tmp.blockNo){
+		if(!newBlock){
+		newBlock = true;
+		temp.add(new Block(q));
 
-					if(q==tmp.blockNo){
-						if(!newBlock){
-							newBlock = true;
-							blocks.add(new Block(q));
-
-						}
-						oneBlockNodes.add(tmp);
-					}
-
-				}
-			}
-
-			//println("blok no.:"+q+" ma "+oneBlockNodes.size()+" nodu");
-			Block b = (Block)blocks.get(q);
-			b.fillNodes(oneBlockNodes);
+		}
+		oneBlockNodes.add(tmp);
 		}
 
+		}
+		}
 
+		//println("blok no.:"+q+" ma "+oneBlockNodes.size()+" nodu");
+		Block b = (Block)blocks.get(q);
+		b.fillNodes(oneBlockNodes);
+		}*/
 
 
 		for(int i = 0;i<blocks.size();i++){
@@ -90,9 +94,9 @@ class DataDump {
 				Node tmpnode = (Node)b.nodes.get(n);
 
 				//coordinte hack
-				raw.add(tmpnode.position.x+":"+abs(map(tmpnode.position.y,0,maxY,maxY,0))+":"+tmpnode.position.z);
+				raw.add(tmpnode.position.x+":"+tmpnode.position.y+":"+tmpnode.position.z);
 
-				raw.add(" "+map(tmpnode.sum,mini,maxi,0,1600)+";");
+				raw.add(" "+map(tmpnode.sum,mini,maxi,0,1600)+";"+tmpnode.sum+";");
 			}
 
 			String [] arr = new String[raw.size()]; 
@@ -107,8 +111,6 @@ class DataDump {
 				saveStrings("blocks/b"+nf(i,3)+".2dg",arr);
 			}
 		}
-
-
 	}
 }
 

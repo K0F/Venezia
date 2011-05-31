@@ -24,7 +24,29 @@ void oscEvent(OscMessage theOscMessage) {
 				NetAddress addr = new NetAddress("127.0.0.1",5555);
 				OscMessage msg = new OscMessage("/control");
 				msg.add("arr");
-				msg.add(new String[]{"0:0:0"," 12.00;","1:1:1", " 0.0;"});
+				// /control arr(string) blokid(int) id(int[] array) hodnota(float[] array)
+				msg.add(idx);
+
+				Block tmp = (Block)blocks.get(idx);
+
+				int[] ids = new int[tmp.nodes.size()];
+				
+				for(int i = 0 ; i < ids.length; i++){
+					Node ntmp = (Node)tmp.nodes.get(i);
+					ids[i] = ntmp.id;
+
+				}
+
+				msg.add(ids);
+				float[] sums = new float[tmp.nodes.size()];
+				for(int i = 0 ;i< sums.length;i++){
+					Node ntmp = (Node)tmp.nodes.get(i);
+					sums[i] = ntmp.sum;
+				}
+				msg.add(sums);
+				
+				
+				
 				receiver.osc.send(msg,addr);
 
 			}
@@ -35,8 +57,8 @@ void oscEvent(OscMessage theOscMessage) {
 	if (theOscMessage.addrPattern().equals("/tracking")) {
 		String tmp = theOscMessage.typetag();
 
-		if (debug)
-			println("values received: " + tmp.length());
+//		if (debug)
+//			println("values received: " + tmp.length());
 
 		float X = theOscMessage.get(0).floatValue() * width;
 		float Y = theOscMessage.get(1).floatValue() * height;
