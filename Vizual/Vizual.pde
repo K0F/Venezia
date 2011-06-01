@@ -31,6 +31,7 @@ import netP5.*;
 //////////////////////////////
 
 boolean backups = true;
+int frameCycle = 5000;
 
 boolean debug = true;
 
@@ -137,7 +138,15 @@ void reset() {
 	println("################################");
 	println("###      VIZUAL RUNNING      ###");
 	println("################################");	
-	println(nodeCount);
+	
+	Block test = (Block)blocks.get(32);
+	for(int i = 0;i<test.nodes.size();i++){
+		Node n = (Node)test.nodes.get(i);
+		//println("test pattern @ block "+test.id);
+		print(" "+n.sum);
+
+	}
+	println("-------------------------------------- ^^");
 }
 
 //////////////////////////////
@@ -218,7 +227,7 @@ void draw() {
 
 	//ssh trigger, no key input
 	if(backups)
-		if(frameCount%2000==0){
+		if(frameCount%frameCycle==0){
 			dumpAndExit();
 		}
 

@@ -18,7 +18,7 @@ class DataParser {
 		//println("stage 2 "+blocks.size());
 		castNodes();
 		//println("stage 3 "+blocks.size());
-//		loadCurrentVals();
+		loadVals();
 		//println("stage 4 "+blocks.size());
 	}
 
@@ -88,7 +88,7 @@ class DataParser {
 		}
 		return _nodes;
 	}
-
+/*
 	void loadCurrentVals(){
 
 		ArrayList names = new ArrayList(0);
@@ -132,5 +132,24 @@ class DataParser {
 			}
 		}
 	}
+*/
+	// restoring values to saved sums
+	void loadVals(){
+		for(int i = 0 ; i< blocks.size();i++){
+			Block b = (Block)blocks.get(i);
+			
+			String[] data = loadStrings(sketchPath+"/blocks/b"+nf(i,3)+".2dg");
+			
+			int nodeNo = 0;
+			for(int ln = 1;ln < data.length;ln += 2){
+				String tmp[] = splitTokens(data[ln],"; ");
+				Node n = (Node)b.nodes.get(nodeNo);
+				n.sum = parseFloat(tmp[1]);
+				nodeNo++;	
+			}
+		}
+
+	}
+
 }
 
