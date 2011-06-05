@@ -31,7 +31,7 @@ import netP5.*;
 //////////////////////////////
 
 boolean backups = true;
-int frameCycle = 5000;
+int frameCycle = 60000;
 
 boolean debug = true;
 
@@ -167,14 +167,15 @@ void draw() {
 
 		for(int bl = 0;bl < blocks.size();bl++){
 			Block block = (Block)blocks.get(bl);
-			for (int i = 0 ;i< block.nodes.size();i++) {
+			for (int i = 0 ;i< block.nodes.size();i+=1) {
 				Node tmp = (Node)block.nodes.get(i);
-
+				
 				if (tmp.sum>maxi/10) {
-					stroke(map(tmp.sum, mini, maxi, 255, 127)); 
+					//stroke(map(tmp.sum, mini, maxi/2, 255, 0)); 
+					float q = map(tmp.sum, mini, maxi, 0, 255);
 					//line(tmp.position.x-R, tmp.position.y-R,tmp.position.x+R,tmp.position.y+R);
 					//line(tmp.position.x+R, tmp.position.y-R,tmp.position.x-R,tmp.position.y+R);
-					ellipse(tmp.position.x, tmp.position.y, R*2, R*2);
+					rect(tmp.position.x, tmp.position.y, q, q);
 				}
 
 				if (tmp.sum==maxi) {

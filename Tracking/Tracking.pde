@@ -45,7 +45,7 @@ boolean newMask = true;
 
 String render = P2D;
 
-float tresh =  29;
+float tresh =  25;
 
 int RES = 200;
 
